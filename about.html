@@ -1,0 +1,555 @@
+<!-- about.html - 老张工艺助手介绍页 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>产品介绍 - 老张工艺助手</title>
+  <meta name="description" content="了解老张工艺助手的核心优势、技术架构和应用场景，25年机加老师傅经验助力机械加工工艺学习">
+  
+  <!-- 样式文件 -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  
+  <!-- 主题色初始化 -->
+  <style id="theme-style"></style>
+</head>
+<body class="grid-bg">
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+          <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+        </svg>
+        <span>老张工艺助手</span>
+      </a>
+      
+      <button class="navbar-toggle" id="navbarToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <ul class="navbar-nav" id="navbarNav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="about.html" class="active">介绍</a></li>
+        <li><a href="login.html">后台管理</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 页面主体 -->
+  <main class="about-page">
+    <div class="container">
+      <div class="about-layout">
+        <!-- 左侧导航 -->
+        <aside class="about-sidebar hidden-mobile">
+          <nav class="sidebar-nav">
+            <div class="sidebar-nav-title">页面导航</div>
+            <ul class="sidebar-nav-list">
+              <li class="sidebar-nav-item">
+                <a href="#overview" class="sidebar-nav-link active">产品概述</a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#advantages" class="sidebar-nav-link">核心优势</a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#tech" class="sidebar-nav-link">技术架构</a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#scenarios" class="sidebar-nav-link">应用场景</a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#team" class="sidebar-nav-link">团队介绍</a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+
+        <!-- 右侧内容区 -->
+        <div class="about-content">
+          <!-- 产品概述 -->
+          <section class="about-section" id="overview">
+            <div class="section-header">
+              <span class="section-tag">产品概述</span>
+              <h2 class="section-title">为什么做老张工艺助手？</h2>
+            </div>
+            
+            <div class="overview-content">
+              <div class="overview-text">
+                <p class="lead-text">
+                  机械加工工艺是机械工程的核心技能，但学习过程中存在<strong>三大痛点</strong>：
+                </p>
+                
+                <div class="pain-points">
+                  <div class="pain-point">
+                    <div class="pain-point-icon">📚</div>
+                    <div class="pain-point-content">
+                      <h4>工艺基础薄弱</h4>
+                      <p>机械专业学生在校期间以理论学习为主，缺乏实际操作经验。课本知识与车间实践脱节，面对真实的加工任务往往无从下手。</p>
+                    </div>
+                  </div>
+                  
+                  <div class="pain-point">
+                    <div class="pain-point-icon">👨‍🏭</div>
+                    <div class="pain-point-content">
+                      <h4>老师傅经验断层</h4>
+                      <p>经验丰富的老师傅即将退休，但传统"师带徒"模式效率低、覆盖面小。年轻学徒很难获得系统的工艺指导。</p>
+                    </div>
+                  </div>
+                  
+                  <div class="pain-point">
+                    <div class="pain-point-icon">🔍</div>
+                    <div class="pain-point-content">
+                      <h4>优质资源分散</h4>
+                      <p>B站、知乎、专业论坛上的工艺知识良莠不齐，学生需要花费大量时间筛选。缺乏一个权威、系统的学习平台。</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="solution-box glass">
+                  <h4>💡 解决方案</h4>
+                  <p><strong>老张工艺助手</strong>基于腾讯元器AI平台开发，以"25年机加老师傅"人设，用口语化、接地气的方式讲解机械加工工艺。整合全网优质资源，打造7×24小时在线的工艺学习助手。</p>
+                </div>
+              </div>
+              
+              <div class="overview-image">
+                <div class="image-placeholder glass">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                  </svg>
+                  <span>工业机械场景图</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 核心优势 -->
+          <section class="about-section" id="advantages">
+            <div class="section-header">
+              <span class="section-tag">核心优势</span>
+              <h2 class="section-title">为什么选择老张工艺助手</h2>
+            </div>
+            
+            <div class="advantages-grid">
+              <div class="card advantage-card">
+                <div class="advantage-number">01</div>
+                <div class="advantage-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </div>
+                <h3 class="advantage-title">老师傅人设</h3>
+                <p class="advantage-desc">25年产线经验口语化讲解，不是冷冰冰的百科。用"粗车留量半毫米"这样的老师傅口诀，让学习更接地气。</p>
+              </div>
+              
+              <div class="card advantage-card">
+                <div class="advantage-number">02</div>
+                <div class="advantage-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polygon points="10 8 16 12 10 16 10 8"/>
+                  </svg>
+                </div>
+                <h3 class="advantage-title">全网资源整合</h3>
+                <p class="advantage-desc">视频+图文，B站/知乎/百科优质内容一键直达。不再需要在多个平台间反复搜索。</p>
+              </div>
+              
+              <div class="card advantage-card">
+                <div class="advantage-number">03</div>
+                <div class="advantage-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 18 22 12 16 6"/>
+                    <polyline points="8 6 2 12 8 18"/>
+                  </svg>
+                </div>
+                <h3 class="advantage-title">零代码搭建</h3>
+                <p class="advantage-desc">基于腾讯元器平台，低门槛快速部署。从想法到上线仅需几天时间，让创意快速落地。</p>
+              </div>
+              
+              <div class="card advantage-card">
+                <div class="advantage-number">04</div>
+                <div class="advantage-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                  </svg>
+                </div>
+                <h3 class="advantage-title">工艺全覆盖</h3>
+                <p class="advantage-desc">车铣钻磨、铸锻焊、热处理、特种加工全涵盖。从基础加工到高级工艺，一站式学习。</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 技术架构 -->
+          <section class="about-section" id="tech">
+            <div class="section-header">
+              <span class="section-tag">技术架构</span>
+              <h2 class="section-title">技术实现方案</h2>
+            </div>
+            
+            <div class="tech-content">
+              <!-- 流程图 -->
+              <div class="tech-flow glass">
+                <div class="flow-step">
+                  <div class="flow-icon">👤</div>
+                  <div class="flow-label">用户输入</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="flow-icon">🎯</div>
+                  <div class="flow-label">意图识别</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="flow-icon">🔍</div>
+                  <div class="flow-label">知识检索</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="flow-icon">🤖</div>
+                  <div class="flow-label">AI生成</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                  <div class="flow-icon">📋</div>
+                  <div class="flow-label">结构化推荐</div>
+                </div>
+              </div>
+              
+              <!-- 技术细节 -->
+              <div class="tech-details">
+                <div class="tech-card glass">
+                  <h4 class="tech-card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="4" y="4" width="16" height="16" rx="2"/>
+                      <rect x="9" y="9" width="6" height="6"/>
+                      <path d="M15 2v2M15 20v2M2 15h2M20 15h2"/>
+                    </svg>
+                    大模型能力
+                  </h4>
+                  <ul class="tech-list">
+                    <li><strong>DeepSeek-R1</strong> - 深度推理能力，处理复杂工艺问题</li>
+                    <li><strong>腾讯混元</strong> - 中文语义理解，更懂国内工艺术语</li>
+                    <li><strong>人设Prompt工程</strong> - 25年老师傅口吻精准调教</li>
+                  </ul>
+                </div>
+                
+                <div class="tech-card glass">
+                  <h4 class="tech-card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="2" y1="12" x2="22" y2="12"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    知识来源
+                  </h4>
+                  <ul class="tech-list">
+                    <li><strong>内置知识库</strong> - 机械加工工艺手册、国标资料</li>
+                    <li><strong>DuckDuckGo搜索</strong> - 实时获取最新工艺信息</li>
+                    <li><strong>视频资源索引</strong> - B站优质教程一键跳转</li>
+                  </ul>
+                </div>
+                
+                <div class="tech-card glass">
+                  <h4 class="tech-card-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    前端技术栈
+                  </h4>
+                  <ul class="tech-list">
+                    <li><strong>纯HTML/CSS/JS</strong> - 无框架依赖，轻量高效</li>
+                    <li><strong>液态玻璃UI</strong> - CSS backdrop-filter实现</li>
+                    <li><strong>Canvas粒子系统</strong> - 2D渲染，性能友好</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 应用场景 -->
+          <section class="about-section" id="scenarios">
+            <div class="section-header">
+              <span class="section-tag">应用场景</span>
+              <h2 class="section-title">适合谁使用</h2>
+            </div>
+            
+            <div class="scenarios-grid">
+              <div class="scenario-card glass">
+                <div class="scenario-image">
+                  <div class="scenario-icon-large">📖</div>
+                </div>
+                <div class="scenario-content">
+                  <h3 class="scenario-title">课堂预习</h3>
+                  <p class="scenario-desc">课前先用老张过一遍概念，带着问题去上课。车削、铣削、磨削...这些工艺再也不怕听不懂了。</p>
+                  <div class="scenario-tags">
+                    <span class="tag">大学生</span>
+                    <span class="tag">课前准备</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="scenario-card glass">
+                <div class="scenario-image">
+                  <div class="scenario-icon-large">🔧</div>
+                </div>
+                <div class="scenario-content">
+                  <h3 class="scenario-title">实训备考</h3>
+                  <p class="scenario-desc">金工实习前恶补操作要领，实习时心里有底。切削参数、刀具选择、安全注意事项，随时查随时学。</p>
+                  <div class="scenario-tags">
+                    <span class="tag">金工实习</span>
+                    <span class="tag">技能考证</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="scenario-card glass">
+                <div class="scenario-image">
+                  <div class="scenario-icon-large">🎓</div>
+                </div>
+                <div class="scenario-content">
+                  <h3 class="scenario-title">毕业设计</h3>
+                  <p class="scenario-desc">工艺规程编制、夹具设计遇到瓶颈？问问老张，从毛坯选择到工序安排，给你系统性建议。</p>
+                  <div class="scenario-tags">
+                    <span class="tag">毕业设计</span>
+                    <span class="tag">工艺设计</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 团队介绍 -->
+          <section class="about-section" id="team">
+            <div class="section-header">
+              <span class="section-tag">团队介绍</span>
+              <h2 class="section-title">关于我们</h2>
+            </div>
+            
+            <div class="team-content glass">
+              <div class="team-info">
+                <h3 class="team-name">CICAS 参赛团队</h3>
+                <p class="team-desc">
+                  我们是一支热爱机械工程与人工智能的学生团队。基于对机械加工工艺教育的深刻理解，我们开发了「老张工艺助手」智能体，希望用AI技术解决工艺学习中的痛点问题。
+                </p>
+                <p class="team-desc">
+                  本项目基于<strong>腾讯元器</strong>平台开发，融合了DeepSeek-R1大模型的深度推理能力与腾讯混元的中文理解优势，为用户提供专业、接地气的工艺咨询服务。
+                </p>
+                
+                <div class="team-stats">
+                  <div class="stat-item">
+                    <div class="stat-number">25年</div>
+                    <div class="stat-label">虚拟经验</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">工艺知识</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-number">7×24</div>
+                    <div class="stat-label">在线服务</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="team-contact">
+                <h4>联系我们</h4>
+                <ul class="contact-list">
+                  <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                      <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <span>jokerkenny@qq.com</span>
+                  </li>
+                  <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                    </svg>
+                    <a href="https://github.com/jokerkenny00137" target="_blank">GitHub 项目</a>
+                  </li>
+                  <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="2" y1="12" x2="22" y2="12"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <a href="https://www.cicas.cn" target="_blank">CICAS 大赛官网</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- CTA区域 -->
+          <section class="about-cta">
+            <div class="cta-content glass">
+              <h2 class="cta-title">准备好开始学习了吗？</h2>
+              <p class="cta-desc">立即与老张对话，开启你的工艺学习之旅</p>
+              <div class="cta-actions">
+                <a href="index.html#chat" class="btn-primary">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  开始对话
+                </a>
+                <a href="https://yuanqi.tencent.com" target="_blank" class="btn-secondary">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                  访问腾讯元器
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="footer-brand-title">老张工艺助手</div>
+          <p class="footer-brand-desc">基于腾讯元器平台开发的AI智能体，致力于帮助机械专业学生和从业者快速掌握加工工艺知识。</p>
+        </div>
+        
+        <div>
+          <div class="footer-links-title">导航</div>
+          <ul class="footer-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="about.html">介绍</a></li>
+            <li><a href="login.html">后台管理</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <div class="footer-links-title">资源</div>
+          <ul class="footer-links">
+            <li><a href="https://yuanqi.tencent.com" target="_blank">腾讯元器</a></li>
+            <li><a href="https://www.cicas.cn" target="_blank">CICAS大赛</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <div class="footer-links-title">联系</div>
+          <ul class="footer-links">
+            <li><a href="https://github.com/jokerkenny00137" target="_blank">GitHub</a></li>
+            <li><a href="mailto:jokerkenny@qq.com">邮箱</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          © 2026 老张工艺助手. All rights reserved.
+        </div>
+        <div class="footer-social">
+          <a href="https://github.com/jokerkenny00137" target="_blank" title="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript文件 -->
+  <script src="js/storage.js"></script>
+  <script src="js/storage-server.js"></script>
+  <script src="js/main.js"></script>
+  
+  <!-- 页面特定脚本 -->
+  <script>
+    // 从服务器加载配置
+    async function loadConfigFromServer() {
+      try {
+        const response = await fetch('./api/config.json?t=' + Date.now());
+        if (response.ok) {
+          const config = await response.json();
+          
+          // 更新页面标题
+          if (config.aboutTitle) {
+            document.title = config.aboutTitle + ' - 产品介绍';
+          }
+          
+          // 更新产品概述内容
+          if (config.aboutContent) {
+            const solutionBox = document.querySelector('.solution-box p');
+            if (solutionBox) {
+              solutionBox.textContent = config.aboutContent;
+            }
+          }
+          
+          // 更新优势卡片
+          if (config.advantages && config.advantages.length > 0) {
+            const advantageCards = document.querySelectorAll('.advantage-card');
+            config.advantages.forEach((adv, index) => {
+              if (advantageCards[index]) {
+                const titleEl = advantageCards[index].querySelector('.advantage-title');
+                const descEl = advantageCards[index].querySelector('.advantage-desc');
+                if (titleEl) titleEl.textContent = adv.title;
+                if (descEl) descEl.textContent = adv.desc;
+              }
+            });
+          }
+          
+          // 更新关于图片
+          if (config.aboutImages && config.aboutImages.length > 0) {
+            const imagePlaceholders = document.querySelectorAll('.image-placeholder, .scenario-image');
+            config.aboutImages.forEach((img, index) => {
+              if (imagePlaceholders[index]) {
+                imagePlaceholders[index].innerHTML = `<img src="${img}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`;
+              }
+            });
+          }
+          
+          console.log('已从服务器加载配置');
+        }
+      } catch (error) {
+        console.log('从服务器加载配置失败:', error);
+      }
+    }
+    
+    // 页面加载时从服务器获取配置
+    document.addEventListener('DOMContentLoaded', () => {
+      loadConfigFromServer();
+      
+      // 侧边栏导航滚动高亮
+      const sections = document.querySelectorAll('.about-section');
+      const navLinks = document.querySelectorAll('.sidebar-nav-link');
+      
+      // 滚动监听
+      window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          
+          if (pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

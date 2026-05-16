@@ -1,0 +1,29 @@
+{
+  "theme": "orange",
+  "backgroundImage": "",
+  "backgroundAudio": "",
+  "aboutTitle": "老张工艺助手",
+  "aboutContent": "",
+  "aboutImages": [],
+  "advantages": [
+    {
+      "title": "老师傅人设",
+      "desc": "25年产线经验口语化讲解，不是冷冰冰的百科"
+    },
+    {
+      "title": "全网资源整合",
+      "desc": "视频+图文，B站/知乎/百科优质内容一键直达"
+    },
+    {
+      "title": "零代码搭建",
+      "desc": "基于腾讯元器/Coze，低门槛快速部署"
+    },
+    {
+      "title": "工艺全覆盖",
+      "desc": "车铣钻磨、铸锻焊、热处理、特种加工全涵盖"
+    }
+  ],
+  "chatMode": "iframe",
+  "iframeUrl": "https://yuanqi.tencent.com/webim/#/chat/edOjNA?appid=2055110454115566656&experience=true",
+  "updatedAt": "2025-01-01T00:00:00.000Z"
+}

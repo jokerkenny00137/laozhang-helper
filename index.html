@@ -1,0 +1,436 @@
+<!-- index.html - 老张工艺助手主页 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>老张工艺助手 - 25年机加老师傅带你学透机械加工工艺</title>
+  <meta name="description" content="老张工艺助手是一款基于AI的机械加工工艺推荐智能体，25年机加老师傅经验，帮你解决车铣钻磨、铸锻焊、热处理等加工工艺问题">
+  
+  <!-- 样式文件 -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  
+  <!-- 主题色初始化 -->
+  <style id="theme-style"></style>
+  
+  <!-- 背景音乐控件样式 -->
+  <style>
+    .audio-control {
+      display: flex;
+      align-items: center;
+      margin-left: 16px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(20, 20, 30, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .audio-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .audio-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--theme-primary);
+    }
+    
+    @media (max-width: 768px) {
+      .audio-control {
+        margin-left: auto;
+        margin-right: 12px;
+      }
+    }
+  </style>
+</head>
+<body class="grid-bg">
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+          <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+        </svg>
+        <span>老张工艺助手</span>
+      </a>
+      
+      <button class="navbar-toggle" id="navbarToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <ul class="navbar-nav" id="navbarNav">
+        <li><a href="index.html" class="active">首页</a></li>
+        <li><a href="about.html">介绍</a></li>
+        <li><a href="login.html">后台管理</a></li>
+      </ul>
+      
+      <!-- 背景音乐控件 -->
+      <div class="audio-control glass" id="audioControl" style="display: none;">
+        <button class="audio-btn" id="audioToggle" title="背景音乐">
+          <svg id="audioIconOn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+          <svg id="audioIconOff" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 第1屏：Hero区域 -->
+  <section class="hero" id="hero">
+    <canvas class="hero-particles" id="particlesCanvas"></canvas>
+    
+    <!-- 装饰齿轮 -->
+    <div class="gear-decoration" style="top: 10%; left: 5%; width: 150px; height: 150px;">
+      <svg viewBox="0 0 100 100" class="gear-spin-slow">
+        <circle cx="50" cy="50" r="15"/>
+        <path d="M50 20v10M50 70v10M20 50h10M70 50h10M28 28l7 7M65 65l7 7M28 72l7-7M65 35l7-7"/>
+        <circle cx="50" cy="50" r="35" fill="none" stroke-dasharray="10 5"/>
+      </svg>
+    </div>
+    <div class="gear-decoration" style="bottom: 15%; right: 8%; width: 200px; height: 200px;">
+      <svg viewBox="0 0 100 100" class="gear-spin-reverse">
+        <circle cx="50" cy="50" r="15"/>
+        <path d="M50 15v15M50 70v15M15 50h15M70 50h15M25 25l10 10M65 65l10 10M25 75l10-10M65 35l10-10"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke-dasharray="15 8"/>
+      </svg>
+    </div>
+    
+    <div class="hero-content">
+      <h1 class="hero-title animate-fadeInUp">老张工艺助手</h1>
+      <p class="hero-subtitle animate-fadeInUp delay-1">
+        25年机加老师傅，带你学透机械加工工艺<br>
+        车铣钻磨 · 铸锻焊 · 热处理 · 特种加工
+      </p>
+      <div class="hero-actions animate-fadeInUp delay-2">
+        <a href="#chat" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          开始对话
+        </a>
+        <a href="about.html" class="btn-secondary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4M12 8h.01"/>
+          </svg>
+          了解详情
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第2屏：智能体对话试用区 -->
+  <section class="chat-section" id="chat">
+    <div class="container">
+      <div class="chat-layout">
+        <!-- 左侧装饰 -->
+        <div class="chat-decoration hidden-mobile">
+          <div class="gear-decoration" style="position: relative; width: 200px; height: 200px; opacity: 0.2;">
+            <svg viewBox="0 0 100 100" class="gear-spin-slow">
+              <circle cx="50" cy="50" r="12"/>
+              <path d="M50 15v12M50 73v12M15 50h12M73 50h12"/>
+              <circle cx="50" cy="50" r="35" fill="none" stroke-width="1.5"/>
+              <path d="M30 20l5 8M70 20l-5 8M30 80l5-8M70 80l-5-8M20 30l8 5M80 30l-8 5M20 70l8-5M80 70l-8-5"/>
+            </svg>
+          </div>
+          <div class="gear-decoration" style="position: relative; width: 120px; height: 120px; margin-top: -40px; margin-left: 100px; opacity: 0.15;">
+            <svg viewBox="0 0 100 100" class="gear-spin-reverse">
+              <circle cx="50" cy="50" r="10"/>
+              <path d="M50 18v10M50 72v10M18 50h10M72 50h10"/>
+              <circle cx="50" cy="50" r="30" fill="none"/>
+              <path d="M35 25l4 6M65 25l-4 6M35 75l4-6M65 75l-4-6M25 35l6 4M75 35l-6 4M25 65l6-4M75 65l-6-4"/>
+            </svg>
+          </div>
+        </div>
+        
+        <!-- 对话窗口 -->
+        <div class="chat-window-wrapper">
+          <div class="chat-window">
+            <!-- 头部 -->
+            <div class="chat-header">
+              <div class="chat-header-info">
+                <div class="chat-avatar" style="width: 40px; height: 40px; font-size: 1rem;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="chat-header-title">老张工艺助手</div>
+                  <div class="chat-header-status">
+                    <span class="status-dot online"></span>
+                    <span>在线</span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-icon" id="clearChatBtn" title="清空对话">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+              </button>
+            </div>
+            
+            <!-- 消息区域 -->
+            <div class="chat-messages" id="chatMessages">
+              <!-- 欢迎消息 -->
+              <div class="chat-message ai">
+                <div class="chat-avatar">张</div>
+                <div class="chat-bubble">
+                  <p>👋 小伙子/姑娘，我是老张！干了25年机加，车铣钻磨、铸锻焊、热处理这些我都门儿清。</p>
+                  <p>有啥工艺问题尽管问我，比如：</p>
+                  <p>• "车削和铣削有什么区别？"</p>
+                  <p>• "淬火和回火有啥用？"</p>
+                  <p>• "45钢怎么加工最省事？"</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="chat-input-area">
+              <div class="chat-input-wrapper">
+                <textarea 
+                  class="chat-input" 
+                  id="chatInput" 
+                  placeholder="问老张：车削是什么？"
+                  rows="1"
+                ></textarea>
+                <button class="chat-send-btn" id="sendBtn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第3屏：快速导航/页脚 -->
+  <section class="features-section">
+    <div class="container">
+      <div class="grid grid-3">
+        <!-- 工艺大全 -->
+        <div class="card feature-card">
+          <div class="feature-number">01</div>
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+          </div>
+          <h3 class="card-title">工艺大全</h3>
+          <p class="card-desc">车削、铣削、钻削、磨削... 涵盖机械加工全工艺，从原理到参数一应俱全。</p>
+        </div>
+        
+        <!-- 视频教程 -->
+        <div class="card feature-card">
+          <div class="feature-number">02</div>
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polygon points="10 8 16 12 10 16 10 8"/>
+            </svg>
+          </div>
+          <h3 class="card-title">视频教程</h3>
+          <p class="card-desc">B站、知乎优质资源整合，推荐最接地气的工艺教学视频，跟着老师傅学手艺。</p>
+        </div>
+        
+        <!-- 老师傅口诀 -->
+        <div class="card feature-card">
+          <div class="feature-number">03</div>
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3 class="card-title">老师傅口诀</h3>
+          <p class="card-desc">"粗车留量半毫米，精车一刀走到底"... 25年产线经验总结，实用口诀帮你快速记忆。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="footer-brand-title">老张工艺助手</div>
+          <p class="footer-brand-desc">基于腾讯元器平台开发的AI智能体，致力于帮助机械专业学生和从业者快速掌握加工工艺知识。</p>
+        </div>
+        
+        <div>
+          <div class="footer-links-title">导航</div>
+          <ul class="footer-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="about.html">介绍</a></li>
+            <li><a href="login.html">后台管理</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <div class="footer-links-title">资源</div>
+          <ul class="footer-links">
+            <li><a href="https://yuanqi.tencent.com" target="_blank">腾讯元器</a></li>
+            <li><a href="https://www.cicas.cn" target="_blank">CICAS大赛</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <div class="footer-links-title">联系</div>
+          <ul class="footer-links">
+            <li><a href="https://github.com/jokerkenny00137" target="_blank">GitHub</a></li>
+            <li><a href="mailto:jokerkenny@qq.com">邮箱</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          © 2026 老张工艺助手. All rights reserved.
+        </div>
+        <div class="footer-social">
+          <a href="https://github.com/jokerkenny00137" target="_blank" title="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript文件 -->
+  <script src="js/storage.js"></script>
+  <script src="js/storage-server.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chat.js"></script>
+  
+  <!-- 从服务器加载配置 -->
+  <script>
+    // 页面加载时从服务器获取最新配置
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('./api/config.json?t=' + Date.now());
+        if (response.ok) {
+          const config = await response.json();
+          
+          // 应用主题
+          if (config.theme) {
+            const themeColors = {
+              orange: { primary: '#ff6b35', primaryLight: '#ff8555' },
+              blue: { primary: '#4a90d9', primaryLight: '#6aa8e8' },
+              red: { primary: '#e74c3c', primaryLight: '#ec7063' }
+            };
+            const colors = themeColors[config.theme] || themeColors.orange;
+            const styleTag = document.getElementById('theme-style');
+            if (styleTag) {
+              styleTag.textContent = `
+                :root {
+                  --theme-primary: ${colors.primary};
+                  --theme-primary-light: ${colors.primaryLight};
+                }
+              `;
+            }
+          }
+          
+          // 应用背景图片
+          if (config.backgroundImage) {
+            const hero = document.getElementById('hero');
+            if (hero) {
+              hero.style.backgroundImage = `url(${config.backgroundImage})`;
+              hero.style.backgroundSize = 'cover';
+              hero.style.backgroundPosition = 'center';
+            }
+          }
+          
+          // 加载背景音乐
+          if (config.backgroundAudio) {
+            loadBackgroundAudio(config.backgroundAudio);
+          }
+          
+          console.log('已从服务器加载配置:', config);
+        }
+      } catch (error) {
+        console.log('从服务器加载配置失败:', error);
+      }
+    });
+    
+    // 加载背景音乐
+    function loadBackgroundAudio(audioUrl) {
+      const audioControl = document.getElementById('audioControl');
+      const audioToggle = document.getElementById('audioToggle');
+      const audioIconOn = document.getElementById('audioIconOn');
+      const audioIconOff = document.getElementById('audioIconOff');
+      
+      if (!audioControl || !audioToggle) return;
+      
+      // 创建音频元素
+      const audio = document.createElement('audio');
+      audio.id = 'bgAudio';
+      audio.loop = true;
+      audio.volume = 0.3;
+      audio.src = audioUrl;
+      document.body.appendChild(audio);
+      
+      // 显示音频控制按钮
+      audioControl.style.display = 'flex';
+      
+      // 默认静音（等待用户交互后播放）
+      let isMuted = true;
+      audio.muted = true;
+      audioIconOn.style.display = 'none';
+      audioIconOff.style.display = 'block';
+      
+      // 点击切换静音/播放
+      audioToggle.addEventListener('click', () => {
+        isMuted = !isMuted;
+        audio.muted = isMuted;
+        
+        if (isMuted) {
+          audioIconOn.style.display = 'none';
+          audioIconOff.style.display = 'block';
+          audio.pause();
+        } else {
+          audioIconOn.style.display = 'block';
+          audioIconOff.style.display = 'none';
+          audio.play().catch(e => console.log('音频播放失败:', e));
+        }
+      });
+      
+      // 尝试自动播放（可能被浏览器阻止）
+      document.addEventListener('click', function initAudio() {
+        if (!isMuted) {
+          audio.play().catch(e => console.log('音频播放失败:', e));
+        }
+        document.removeEventListener('click', initAudio);
+      }, { once: true });
+    }
+  </script>
+</body>
+</html>

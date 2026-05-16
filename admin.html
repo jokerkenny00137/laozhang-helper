@@ -1,0 +1,775 @@
+<!-- admin.html - 老张工艺助手管理员后台 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>后台管理 - 老张工艺助手</title>
+  <meta name="description" content="老张工艺助手管理员后台管理系统">
+  
+  <!-- 样式文件 -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <!-- 主题色初始化 -->
+  <style id="theme-style"></style>
+  
+  <!-- 后台专用样式 -->
+  <style>
+    /* 后台布局 */
+    .admin-page {
+      min-height: 100vh;
+      display: flex;
+    }
+    
+    /* 侧边栏 */
+    .admin-sidebar {
+      width: 260px;
+      background: rgba(10, 10, 15, 0.95);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+    }
+    
+    .admin-sidebar-header {
+      padding: var(--spacing-lg);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    
+    .admin-brand svg {
+      width: 28px;
+      height: 28px;
+      color: var(--theme-primary);
+    }
+    
+    .admin-nav {
+      flex: 1;
+      padding: var(--spacing-md);
+    }
+    
+    .admin-nav-list {
+      list-style: none;
+    }
+    
+    .admin-nav-item {
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      padding: var(--spacing-md);
+      color: var(--text-secondary);
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+    
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+    
+    .admin-nav-link.active {
+      background: rgba(255, 107, 53, 0.1);
+      color: var(--theme-primary);
+    }
+    
+    .admin-nav-link svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .admin-sidebar-footer {
+      padding: var(--spacing-md);
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .admin-logout-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-md);
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.2);
+      border-radius: var(--radius-md);
+      color: var(--accent-red);
+      font-size: 0.9rem;
+      transition: all var(--transition-fast);
+    }
+    
+    .admin-logout-btn:hover {
+      background: rgba(231, 76, 60, 0.2);
+    }
+    
+    /* 主内容区 */
+    .admin-main {
+      flex: 1;
+      margin-left: 260px;
+      padding: var(--spacing-xl);
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-xl);
+    }
+    
+    .admin-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .admin-actions {
+      display: flex;
+      gap: var(--spacing-md);
+    }
+    
+    /* 内容面板 */
+    .admin-panel {
+      display: none;
+    }
+    
+    .admin-panel.active {
+      display: block;
+    }
+    
+    .admin-card {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .admin-card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-md);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    /* 设置项 */
+    .setting-item {
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .setting-label {
+      display: block;
+      margin-bottom: var(--spacing-sm);
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    
+    .setting-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: var(--spacing-xs);
+    }
+    
+    /* 主题色选择 */
+    .theme-selector {
+      display: flex;
+      gap: var(--spacing-md);
+    }
+    
+    .theme-option {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+    
+    .theme-option:hover {
+      transform: scale(1.1);
+    }
+    
+    .theme-option.selected {
+      border-color: white;
+      box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--theme-primary);
+    }
+    
+    .theme-option.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .theme-orange { background: #ff6b35; }
+    .theme-blue { background: #4a90d9; }
+    .theme-red { background: #e74c3c; }
+    
+    /* 对话模式选择器 */
+    .mode-selector {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+    
+    .mode-option {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      padding: var(--spacing-lg);
+      background: rgba(255, 255, 255, 0.03);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: all var(--transition-normal);
+    }
+    
+    .mode-option:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    .mode-option.selected {
+      background: rgba(255, 107, 53, 0.1);
+      border-color: var(--theme-primary);
+    }
+    
+    .mode-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+    
+    .mode-info {
+      flex: 1;
+    }
+    
+    .mode-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .mode-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    
+    /* 文件上传 */
+    .file-upload-preview {
+      margin-top: var(--spacing-md);
+      max-width: 300px;
+    }
+    
+    .file-upload-preview img {
+      width: 100%;
+      border-radius: var(--radius-md);
+    }
+    
+    .file-upload-preview audio {
+      width: 100%;
+    }
+    
+    /* 缩略图列表 */
+    .thumbnail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-md);
+    }
+    
+    .thumbnail-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+    
+    .thumbnail-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .thumbnail-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-full);
+      background: rgba(231, 76, 60, 0.9);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      transition: all var(--transition-fast);
+    }
+    
+    .thumbnail-remove:hover {
+      background: var(--accent-red);
+    }
+    
+    .thumbnail-add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--border-color);
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all var(--transition-fast);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .thumbnail-add:hover {
+      border-color: var(--theme-primary);
+      color: var(--theme-primary);
+    }
+    
+    /* 优势卡片编辑 */
+    .advantage-edit {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .advantage-edit-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-md);
+      color: var(--theme-primary);
+      font-weight: 500;
+    }
+    
+    /* 预览区域 */
+    .preview-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+    }
+    
+    .preview-card {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      padding: var(--spacing-lg);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+    
+    .preview-card:hover {
+      border-color: var(--theme-primary);
+      background: rgba(255, 107, 53, 0.05);
+    }
+    
+    .preview-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 107, 53, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--theme-primary);
+    }
+    
+    .preview-card-title {
+      font-weight: 500;
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .preview-card-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    
+    /* 移动端菜单 */
+    .admin-mobile-toggle {
+      display: none;
+      position: fixed;
+      top: var(--spacing-md);
+      left: var(--spacing-md);
+      z-index: 101;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--glass-bg);
+      border: var(--glass-border);
+      backdrop-filter: var(--glass-blur);
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .admin-sidebar {
+        transform: translateX(-100%);
+        transition: transform var(--transition-normal);
+      }
+      
+      .admin-sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .admin-main {
+        margin-left: 0;
+        padding-top: 60px;
+      }
+      
+      .admin-mobile-toggle {
+        display: flex;
+      }
+      
+      .theme-selector {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body class="grid-bg">
+  <!-- 移动端菜单按钮 -->
+  <button class="admin-mobile-toggle" id="mobileToggle">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+  <!-- 后台页面 -->
+  <div class="admin-page">
+    <!-- 侧边栏 -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="admin-sidebar-header">
+        <a href="index.html" class="admin-brand">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+            <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+          </svg>
+          <span>后台管理</span>
+        </a>
+      </div>
+      
+      <nav class="admin-nav">
+        <ul class="admin-nav-list">
+          <li class="admin-nav-item">
+            <a class="admin-nav-link active" data-panel="appearance">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+              </svg>
+              外观设置
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a class="admin-nav-link" data-panel="content">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+              内容管理
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a class="admin-nav-link" data-panel="preview">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              预览
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="admin-sidebar-footer">
+        <button class="admin-logout-btn" id="logoutBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          退出登录
+        </button>
+      </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="admin-main">
+      <!-- 头部 -->
+      <div class="admin-header">
+        <h1 class="admin-title" id="pageTitle">外观设置</h1>
+        <div class="admin-actions">
+          <button class="btn-secondary" id="resetBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+            重置默认
+          </button>
+          <button class="btn-primary" id="saveBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            保存设置
+          </button>
+        </div>
+      </div>
+
+      <!-- 外观设置面板 -->
+      <div class="admin-panel active" id="panel-appearance">
+        <!-- 主题色设置 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">主题颜色</h2>
+          <div class="setting-item">
+            <label class="setting-label">选择主题色</label>
+            <div class="theme-selector" id="themeSelector">
+              <div class="theme-option theme-orange selected" data-theme="orange" title="工业橙"></div>
+              <div class="theme-option theme-blue" data-theme="blue" title="钢蓝"></div>
+              <div class="theme-option theme-red" data-theme="red" title="熔岩红"></div>
+            </div>
+            <p class="setting-hint">选择网站的主色调，将应用于按钮、高亮、边框等元素</p>
+          </div>
+        </div>
+
+        <!-- 背景图片设置 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">背景图片</h2>
+          <div class="setting-item">
+            <label class="setting-label">上传背景图片</label>
+            <div class="file-upload" id="bgImageUpload">
+              <input type="file" id="bgImageInput" accept="image/*">
+              <div class="file-upload-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+              <div class="file-upload-text">点击或拖拽上传背景图片</div>
+              <div class="file-upload-hint">支持 JPG、PNG、GIF 格式，最大 5MB</div>
+            </div>
+            <div class="file-upload-preview" id="bgImagePreview" style="display: none;">
+              <img src="" alt="背景预览">
+              <button class="btn-secondary mt-md" id="removeBgImage" style="width: 100%;">
+                移除背景图片
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 背景音乐设置 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">背景音乐</h2>
+          <div class="setting-item">
+            <label class="setting-label">上传背景音乐</label>
+            <div class="file-upload" id="bgAudioUpload">
+              <input type="file" id="bgAudioInput" accept="audio/*">
+              <div class="file-upload-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M9 18V5l12-2v13"/>
+                  <circle cx="6" cy="18" r="3"/>
+                  <circle cx="18" cy="16" r="3"/>
+                </svg>
+              </div>
+              <div class="file-upload-text">点击或拖拽上传背景音乐</div>
+              <div class="file-upload-hint">支持 MP3、WAV、OGG 格式，最大 10MB</div>
+            </div>
+            <div class="file-upload-preview" id="bgAudioPreview" style="display: none;">
+              <audio controls id="bgAudioPlayer"></audio>
+              <button class="btn-secondary mt-md" id="removeBgAudio" style="width: 100%;">
+                移除背景音乐
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 对话模式设置 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">对话模式</h2>
+          <div class="setting-item">
+            <label class="setting-label">选择对话模式</label>
+            <div class="mode-selector" id="chatModeSelector">
+              <div class="mode-option selected" data-mode="iframe">
+                <div class="mode-icon">🤖</div>
+                <div class="mode-info">
+                  <div class="mode-name">腾讯元器嵌入</div>
+                  <div class="mode-desc">使用官方iframe嵌入，最稳定的方案</div>
+                </div>
+              </div>
+              <div class="mode-option" data-mode="api">
+                <div class="mode-icon">⚡</div>
+                <div class="mode-info">
+                  <div class="mode-name">API直接调用</div>
+                  <div class="mode-desc">直接调用腾讯元器API，可能遇到跨域限制</div>
+                </div>
+              </div>
+              <div class="mode-option" data-mode="mock">
+                <div class="mode-icon">💬</div>
+                <div class="mode-info">
+                  <div class="mode-name">本地模拟回复</div>
+                  <div class="mode-desc">使用预设的本地回复，无需联网，适合演示</div>
+                </div>
+              </div>
+            </div>
+            <p class="setting-hint">切换模式后，刷新首页即可生效</p>
+          </div>
+          
+          <!-- iframe URL 设置 -->
+          <div class="setting-item" id="iframeUrlSetting">
+            <label class="setting-label">腾讯元器嵌入链接</label>
+            <input type="text" class="glass-input" id="iframeUrlInput" placeholder="https://yuanqi.tencent.com/webim/#/chat/...">
+            <p class="setting-hint">从腾讯元器控制台获取的网页嵌入链接</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 内容管理面板 -->
+      <div class="admin-panel" id="panel-content">
+        <!-- 介绍页标题 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">介绍页标题</h2>
+          <div class="setting-item">
+            <label class="setting-label">页面主标题</label>
+            <input type="text" class="glass-input" id="aboutTitle" placeholder="输入介绍页标题">
+          </div>
+        </div>
+
+        <!-- 介绍页内容 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">介绍页正文</h2>
+          <div class="setting-item">
+            <label class="setting-label">页面内容（支持简单换行）</label>
+            <textarea class="glass-input form-textarea" id="aboutContent" rows="10" placeholder="输入介绍页内容"></textarea>
+            <p class="setting-hint">在需要换行的地方直接回车即可</p>
+          </div>
+        </div>
+
+        <!-- 介绍页图片 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">介绍页图片</h2>
+          <div class="setting-item">
+            <label class="setting-label">上传图片（最多5张）</label>
+            <div class="thumbnail-grid" id="aboutImagesGrid">
+              <!-- 缩略图将在这里动态添加 -->
+              <div class="thumbnail-item thumbnail-add" id="addImageBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </div>
+            </div>
+            <input type="file" id="aboutImageInput" accept="image/*" style="display: none;">
+          </div>
+        </div>
+
+        <!-- 优势卡片 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">核心优势卡片</h2>
+          <div id="advantagesList">
+            <!-- 优势卡片将在这里动态添加 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 预览面板 -->
+      <div class="admin-panel" id="panel-preview">
+        <div class="admin-card">
+          <h2 class="admin-card-title">页面预览</h2>
+          <p class="text-secondary mb-lg">点击下方的卡片在新标签页中预览网站效果</p>
+          <div class="preview-links">
+            <div class="preview-card" onclick="window.open('index.html', '_blank')">
+              <div class="preview-card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </div>
+              <div>
+                <div class="preview-card-title">首页</div>
+                <div class="preview-card-desc">Hero区域 + 对话窗口</div>
+              </div>
+            </div>
+            
+            <div class="preview-card" onclick="window.open('about.html', '_blank')">
+              <div class="preview-card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="16" x2="12" y2="12"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+              </div>
+              <div>
+                <div class="preview-card-title">介绍页</div>
+                <div class="preview-card-desc">产品详情 + 技术架构</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript文件 -->
+  <script src="js/storage.js"></script>
+  <script src="js/storage-server.js"></script>
+  <script src="js/admin.js"></script>
+  
+  <!-- 主题色初始化 -->
+  <script>
+    // 初始化主题
+    const theme = StorageManager.getTheme();
+    const themeColors = {
+      orange: { primary: '#ff6b35', primaryLight: '#ff8555' },
+      blue: { primary: '#4a90d9', primaryLight: '#6aa8e8' },
+      red: { primary: '#e74c3c', primaryLight: '#ec7063' }
+    };
+    
+    const colors = themeColors[theme] || themeColors.orange;
+    const styleTag = document.getElementById('theme-style');
+    styleTag.textContent = `
+      :root {
+        --theme-primary: ${colors.primary};
+        --theme-primary-light: ${colors.primaryLight};
+      }
+    `;
+  </script>
+</body>
+</html>

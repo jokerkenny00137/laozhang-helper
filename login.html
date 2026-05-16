@@ -1,0 +1,512 @@
+<!-- login.html - 老张工艺助手管理员登录页 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理员登录 - 老张工艺助手</title>
+  <meta name="description" content="老张工艺助手管理员后台登录">
+  
+  <!-- 样式文件 -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <!-- 主题色初始化 -->
+  <style id="theme-style"></style>
+  
+  <!-- 登录页专用样式 -->
+  <style>
+    /* 登录页布局 */
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-lg);
+      background: 
+        radial-gradient(ellipse at top, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(74, 144, 217, 0.1) 0%, transparent 50%),
+        var(--bg-primary);
+    }
+    
+    /* 登录卡片 */
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      padding: var(--spacing-2xl);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* 登录头部 */
+    .login-header {
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+    }
+    
+    .login-logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto var(--spacing-md);
+      background: rgba(255, 107, 53, 0.1);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--theme-primary);
+    }
+    
+    .login-logo svg {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .login-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .login-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    
+    /* 登录表单 */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+    
+    .form-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    
+    .form-input-wrapper {
+      position: relative;
+    }
+    
+    .form-input-icon {
+      position: absolute;
+      left: var(--spacing-md);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all var(--transition-normal);
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--theme-primary);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+    }
+    
+    .form-input::placeholder {
+      color: var(--text-muted);
+    }
+    
+    /* 密码可见性切换 */
+    .password-toggle {
+      position: absolute;
+      right: var(--spacing-md);
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: var(--spacing-xs);
+      transition: color var(--transition-fast);
+    }
+    
+    .password-toggle:hover {
+      color: var(--text-primary);
+    }
+    
+    /* 登录按钮 */
+    .login-btn {
+      width: 100%;
+      padding: var(--spacing-md);
+      background: var(--theme-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+    }
+    
+    .login-btn:hover {
+      background: var(--theme-primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    }
+    
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .login-btn.loading {
+      pointer-events: none;
+    }
+    
+    /* 提示信息 */
+    .login-hint {
+      margin-top: var(--spacing-lg);
+      padding: var(--spacing-md);
+      background: rgba(255, 193, 7, 0.1);
+      border: 1px solid rgba(255, 193, 7, 0.2);
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      color: #ffc107;
+      text-align: center;
+    }
+    
+    .login-hint code {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+    }
+    
+    /* 错误提示 */
+    .error-message {
+      display: none;
+      padding: var(--spacing-md);
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.2);
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      color: var(--accent-red);
+      text-align: center;
+    }
+    
+    .error-message.show {
+      display: block;
+    }
+    
+    /* 返回链接 */
+    .login-footer {
+      margin-top: var(--spacing-xl);
+      text-align: center;
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      transition: color var(--transition-fast);
+    }
+    
+    .back-link:hover {
+      color: var(--theme-primary);
+    }
+    
+    /* 装饰齿轮 */
+    .login-decoration {
+      position: fixed;
+      opacity: 0.1;
+      pointer-events: none;
+    }
+    
+    .login-decoration svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: var(--theme-primary);
+      stroke-width: 1;
+    }
+    
+    .login-decoration-1 {
+      top: 10%;
+      left: 5%;
+      width: 150px;
+      height: 150px;
+      animation: spin 60s linear infinite;
+    }
+    
+    .login-decoration-2 {
+      bottom: 15%;
+      right: 8%;
+      width: 200px;
+      height: 200px;
+      animation: spin 45s linear infinite reverse;
+    }
+  </style>
+</head>
+<body>
+  <!-- 装饰齿轮 -->
+  <div class="login-decoration login-decoration-1">
+    <svg viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="15"/>
+      <path d="M50 20v10M50 70v10M20 50h10M70 50h10M28 28l7 7M65 65l7 7M28 72l7-7M65 35l7-7"/>
+      <circle cx="50" cy="50" r="35" fill="none" stroke-dasharray="10 5"/>
+    </svg>
+  </div>
+  <div class="login-decoration login-decoration-2">
+    <svg viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="15"/>
+      <path d="M50 15v15M50 70v15M15 50h15M70 50h15M25 25l10 10M65 65l10 10M25 75l10-10M65 35l10-10"/>
+      <circle cx="50" cy="50" r="40" fill="none" stroke-dasharray="15 8"/>
+    </svg>
+  </div>
+
+  <!-- 登录页面 -->
+  <div class="login-page">
+    <div class="login-card">
+      <!-- 头部 -->
+      <div class="login-header">
+        <div class="login-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+            <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+          </svg>
+        </div>
+        <h1 class="login-title">管理员登录</h1>
+        <p class="login-subtitle">老张工艺助手后台管理系统</p>
+      </div>
+      
+      <!-- 表单 -->
+      <form class="login-form" id="loginForm">
+        <div class="form-group">
+          <label class="form-label" for="username">用户名</label>
+          <div class="form-input-wrapper">
+            <span class="form-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <input 
+              type="text" 
+              id="username" 
+              class="form-input" 
+              placeholder="请输入用户名"
+              autocomplete="username"
+              required
+            >
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="password">密码</label>
+          <div class="form-input-wrapper">
+            <span class="form-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input 
+              type="password" 
+              id="password" 
+              class="form-input" 
+              placeholder="请输入密码"
+              autocomplete="current-password"
+              required
+            >
+            <button type="button" class="password-toggle" id="togglePassword" title="显示/隐藏密码">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="eyeIcon">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="eyeOffIcon" style="display: none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <!-- 错误提示 -->
+        <div class="error-message" id="errorMessage">
+          用户名或密码错误
+        </div>
+        
+        <!-- 登录按钮 -->
+        <button type="submit" class="login-btn" id="loginBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          登录
+        </button>
+      </form>
+      
+      <!-- 提示信息 -->
+      <div class="login-hint">
+        <strong>演示账号</strong><br>
+        用户名：<code>admin</code> / 密码：<code>admin123</code><br>
+        <small>（生产环境请修改默认密码）</small>
+      </div>
+      
+      <!-- 返回链接 -->
+      <div class="login-footer">
+        <a href="index.html" class="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          返回首页
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/storage.js"></script>
+  <script>
+    // 默认账号密码
+    const DEFAULT_USERNAME = 'admin';
+    const DEFAULT_PASSWORD = 'admin123';
+    
+    // 检查是否已登录
+    if (StorageManager.isLoggedIn()) {
+      window.location.href = 'admin.html';
+    }
+    
+    // DOM元素
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const eyeOffIcon = document.getElementById('eyeOffIcon');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    
+    // 切换密码可见性
+    togglePasswordBtn.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      
+      if (type === 'text') {
+        eyeIcon.style.display = 'none';
+        eyeOffIcon.style.display = 'block';
+      } else {
+        eyeIcon.style.display = 'block';
+        eyeOffIcon.style.display = 'none';
+      }
+    });
+    
+    // 表单提交
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      
+      // 显示加载状态
+      loginBtn.classList.add('loading');
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = `
+        <span class="loading-spinner" style="width: 18px; height: 18px; border-width: 2px;"></span>
+        登录中...
+      `;
+      
+      // 模拟登录延迟
+      setTimeout(() => {
+        if (username === DEFAULT_USERNAME && password === DEFAULT_PASSWORD) {
+          // 登录成功
+          StorageManager.setLoggedIn(true);
+          window.location.href = 'admin.html';
+        } else {
+          // 登录失败
+          errorMessage.classList.add('show');
+          loginBtn.classList.remove('loading');
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+            登录
+          `;
+          
+          // 震动效果
+          loginForm.style.animation = 'shake 0.5s';
+          setTimeout(() => {
+            loginForm.style.animation = '';
+          }, 500);
+        }
+      }, 800);
+    });
+    
+    // 输入时隐藏错误信息
+    usernameInput.addEventListener('input', () => {
+      errorMessage.classList.remove('show');
+    });
+    
+    passwordInput.addEventListener('input', () => {
+      errorMessage.classList.remove('show');
+    });
+  </script>
+  
+  <!-- 主题色初始化 -->
+  <script>
+    // 初始化主题
+    const theme = StorageManager.getTheme();
+    const themeColors = {
+      orange: { primary: '#ff6b35', primaryLight: '#ff8555' },
+      blue: { primary: '#4a90d9', primaryLight: '#6aa8e8' },
+      red: { primary: '#e74c3c', primaryLight: '#ec7063' }
+    };
+    
+    const colors = themeColors[theme] || themeColors.orange;
+    const styleTag = document.getElementById('theme-style');
+    styleTag.textContent = `
+      :root {
+        --theme-primary: ${colors.primary};
+        --theme-primary-light: ${colors.primaryLight};
+      }
+    `;
+  </script>
+  
+  <!-- 震动动画 -->
+  <style>
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+  </style>
+</body>
+</html>
