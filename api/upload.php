@@ -24,6 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// 加载本地配置文件
+function loadLocalConfig() {
+    $localConfigFile = __DIR__ . '/config.local.php';
+    if (file_exists($localConfigFile)) {
+        return require $localConfigFile;
+    }
+    return [];
+}
+
 // 辅助函数：获取 Authorization Header（兼容各种 PHP 运行模式）
 function getAuthHeader() {
     if (function_exists('getallheaders')) {
@@ -41,9 +50,18 @@ function getAuthHeader() {
     return '';
 }
 
-// 简单鉴权
+// 简单鉴权（从本地配置文件加载 Token）
+$localConfig = loadLocalConfig();
+$validToken = isset($localConfig['auth_token']) ? 'Bearer ' . $localConfig['auth_token'] : '';
+
+if (empty($validToken)) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Server configuration error: auth token not configured']);
+    exit;
+}
+
 $authHeader = getAuthHeader();
-if ($authHeader !== 'Bearer laozhang2024') {
+if ($authHeader !== $validToken) {
     http_response_code(401);
     echo json_encode(['error' => 'Unauthorized']);
     exit;
