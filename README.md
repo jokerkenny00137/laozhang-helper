@@ -1,6 +1,6 @@
 # 老张工艺助手 - 智能体展示网站
 
-基于腾讯元器平台开发的机械加工工艺AI智能体展示网站，参加CICAS 2025比赛作品。
+基于腾讯元器平台开发的机械加工工艺AI智能体展示网站
 
 ## 项目概述
 
@@ -180,14 +180,6 @@ apiConfig: {
 使用口语化表达，避免过于学术化的术语。
 ```
 
-## CICAS比赛相关
-
-### 比赛信息
-
-- **名称**：CICAS 2025
-- **官网**：https://www.cicas.cn
-- **主题**：人工智能+制造/文化/其他
-
 ### 作品亮点
 
 1. **AI+制造教育**：用AI技术解决机械工程教育中的痛点问题
@@ -195,12 +187,6 @@ apiConfig: {
 3. **资源整合**：打通全网优质教学资源
 4. **零代码开发**：基于腾讯元器平台，快速落地
 
-### 提交材料
-
-- [x] 项目展示网站
-- [ ] 项目说明文档（PDF）
-- [ ] 演示视频
-- [ ] 知识产权承诺书
 
 ## 浏览器兼容性
 
@@ -219,9 +205,9 @@ apiConfig: {
 - [x] 模拟AI回复
 - [x] 管理员后台
 - [x] 主题切换功能
-- [ ] 真实API接入
+- [x] 真实API接入
 - [ ] 用户反馈系统
-- [ ] 移动端优化
+- [x] 移动端优化
 - [ ] 多语言支持
 
 ## 贡献指南
@@ -234,10 +220,6 @@ MIT License
 
 ## 联系方式
 
-- 项目主页：https://your-domain.com
-- 邮箱：contact@example.com
-- GitHub：https://github.com/yourusername/laozhang-assistant
-
----
-
-**祝CICAS比赛顺利！🏆**
+- 项目主页：http://114.132.41.133:8080/index.html
+- 邮箱：jokerkenny@qq.com
+- GitHub：[https://github.com/yourusername/laozhang-assistant](https://github.com/jokerkenny00137/laozhang-helper)
