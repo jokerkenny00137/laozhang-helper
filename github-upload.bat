@@ -2,9 +2,9 @@
 chcp 65001 >nul
 echo 正在初始化 Git 仓库...
 
-REM 配置 Git
-git config --global user.name "jokerkenny00137"
-git config --global user.email "jokerkenny@qq.com"
+REM 配置 Git（请修改为你的信息）
+REM git config --global user.name "你的GitHub用户名"
+REM git config --global user.email "你的邮箱"
 
 REM 初始化仓库
 git init

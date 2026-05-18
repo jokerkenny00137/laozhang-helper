@@ -38,7 +38,7 @@ if not exist "api\config.json" (
     echo     {"title": "工艺全覆盖", "desc": "车铣钻磨铸锻焊热处理全涵盖"} >> api\config.json
     echo   ], >> api\config.json
     echo   "chatMode": "iframe", >> api\config.json
-    echo   "iframeUrl": "https://yuanqi.tencent.com/webim/#/chat/edOjNA?appid=2055110454115566656&experience=true", >> api\config.json
+    echo   "iframeUrl": "https://yuanqi.tencent.com/webim/#/chat/你的聊天ID?appid=你的AppID&experience=true", >> api\config.json
     echo   "updatedAt": "2025-01-01T00:00:00.000Z" >> api\config.json
     echo } >> api\config.json
 )
@@ -76,7 +76,7 @@ if errorlevel 1 (
     echo.
     echo 后台管理:
     echo   - 地址: http://localhost:3000/login.html
-    echo   - 默认密码: laozhang2024
+    echo   - 默认密码: 请查看 config.js 中的 AUTH_TOKEN
     echo.
     echo 常用命令:
     echo   - 查看日志: docker-compose logs -f

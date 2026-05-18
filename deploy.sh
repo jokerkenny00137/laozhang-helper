@@ -56,7 +56,7 @@ if [ ! -f "api/config.json" ]; then
     }
   ],
   "chatMode": "iframe",
-  "iframeUrl": "https://yuanqi.tencent.com/webim/#/chat/edOjNA?appid=2055110454115566656&experience=true",
+  "iframeUrl": "https://yuanqi.tencent.com/webim/#/chat/你的聊天ID?appid=你的AppID&experience=true",
   "updatedAt": "2025-01-01T00:00:00.000Z"
 }
 EOF
@@ -90,7 +90,7 @@ if docker-compose ps | grep -q "Up"; then
     echo ""
     echo "后台管理:"
     echo "  - 地址: http://localhost:3000/login.html"
-    echo "  - 默认密码: laozhang2024"
+    echo "  - 默认密码: 请查看 config.js 中的 AUTH_TOKEN"
     echo ""
     echo "常用命令:"
     echo "  - 查看日志: docker-compose logs -f"
