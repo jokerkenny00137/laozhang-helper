@@ -66,12 +66,23 @@ const ServerStorage = {
         body: formData
       });
       
-      if (response.ok) {
-        return await response.json();
-      } else {
-        const error = await response.json();
-        throw new Error(error.error || 'Upload failed');
+      // 先获取文本响应
+      const text = await response.text();
+      
+      // 尝试解析JSON
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('服务器返回非JSON响应:', text.substring(0, 200));
+        throw new Error('服务器错误，请检查上传目录权限');
       }
+      
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || `上传失败 (${response.status})`);
+      }
+      
+      return data;
     } catch (error) {
       console.error('上传图片失败:', error);
       throw error;

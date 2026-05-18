@@ -4,10 +4,14 @@
  * 保存背景图和介绍页图片到服务器
  */
 
+// 禁用错误输出，防止破坏JSON响应
+error_reporting(0);
+ini_set('display_errors', 0);
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -20,9 +24,25 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// 辅助函数：获取 Authorization Header（兼容各种 PHP 运行模式）
+function getAuthHeader() {
+    if (function_exists('getallheaders')) {
+        $headers = getallheaders();
+        if (isset($headers['Authorization'])) {
+            return $headers['Authorization'];
+        }
+    }
+    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+        return $_SERVER['HTTP_AUTHORIZATION'];
+    }
+    if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        return $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    }
+    return '';
+}
+
 // 简单鉴权
-$headers = getallheaders();
-$authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
+$authHeader = getAuthHeader();
 if ($authHeader !== 'Bearer laozhang2024') {
     http_response_code(401);
     echo json_encode(['error' => 'Unauthorized']);
@@ -32,26 +52,47 @@ if ($authHeader !== 'Bearer laozhang2024') {
 // 创建上传目录
 $uploadDir = __DIR__ . '/uploads/';
 if (!is_dir($uploadDir)) {
-    if (!mkdir($uploadDir, 0777, true)) {
+    if (!@mkdir($uploadDir, 0777, true)) {
         http_response_code(500);
-        echo json_encode(['error' => 'Failed to create upload directory: ' . $uploadDir]);
+        echo json_encode(['error' => 'Failed to create upload directory']);
         exit;
     }
 }
 
 // 确保目录可写
 if (!is_writable($uploadDir)) {
-    chmod($uploadDir, 0777);
+    @chmod($uploadDir, 0777);
 }
 
 // 检查文件
 if (!isset($_FILES['file'])) {
+    $error = 'No file uploaded';
+    if (empty($_POST) && isset($_SERVER['CONTENT_LENGTH']) && (int)$_SERVER['CONTENT_LENGTH'] > 0) {
+        $error .= '. Possible cause: file exceeds server upload limit (PHP upload_max_filesize = ' . ini_get('upload_max_filesize') . ')';
+    }
     http_response_code(400);
-    echo json_encode(['error' => 'No file uploaded']);
+    echo json_encode(['error' => $error]);
     exit;
 }
 
 $file = $_FILES['file'];
+
+// 检查上传错误
+if ($file['error'] !== UPLOAD_ERR_OK) {
+    $errorMessages = [
+        UPLOAD_ERR_INI_SIZE => 'File exceeds server limit',
+        UPLOAD_ERR_FORM_SIZE => 'File exceeds form limit',
+        UPLOAD_ERR_PARTIAL => 'File partially uploaded',
+        UPLOAD_ERR_NO_FILE => 'No file uploaded',
+        UPLOAD_ERR_NO_TMP_DIR => 'Missing temp folder',
+        UPLOAD_ERR_CANT_WRITE => 'Failed to write file',
+        UPLOAD_ERR_EXTENSION => 'Upload stopped by extension'
+    ];
+    http_response_code(400);
+    echo json_encode(['error' => $errorMessages[$file['error']] ?? 'Upload error: ' . $file['error']]);
+    exit;
+}
+
 $maxSize = 10 * 1024 * 1024; // 10MB
 
 // 通过文件扩展名验证类型
@@ -67,19 +108,21 @@ if (!in_array($ext, $allowedExts)) {
 // 验证文件大小
 if ($file['size'] > $maxSize) {
     http_response_code(400);
-    echo json_encode(['error' => 'File too large. Max: 5MB']);
+    echo json_encode(['error' => 'File too large. Max: 10MB']);
     exit;
 }
 
 // 生成文件名
-$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 $filename = uniqid() . '_' . time() . '.' . $ext;
 $filepath = $uploadDir . $filename;
 
 // 移动文件
-if (move_uploaded_file($file['tmp_name'], $filepath)) {
-    // 返回相对路径
-    $url = './api/uploads/' . $filename;
+if (@move_uploaded_file($file['tmp_name'], $filepath)) {
+    // 返回相对路径（使用绝对路径URL）
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
+    $url = $protocol . '://' . $host . '/api/uploads/' . $filename;
+    
     echo json_encode([
         'success' => true,
         'url' => $url,

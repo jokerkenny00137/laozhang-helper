@@ -1,0 +1,42 @@
+# 老张工艺助手 - Docker Compose 配置
+# 实现多设备同步部署
+
+version: '3.8'
+
+services:
+  # Web 应用服务
+  app:
+    build: .
+    container_name: laozhang-helper
+    ports:
+      - "8080:80"
+    volumes:
+      # 持久化配置和上传的文件
+      - ./api:/var/www/html/api
+      # 可选：挂载数据目录（用于生产环境）
+      # - /data/laozhang/config:/var/www/html/api
+    restart: unless-stopped
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+    # 启动前自动修复文件权限，确保 PHP 可读写配置和上传目录
+    command: >
+      bash -c "
+        chmod 666 /var/www/html/api/config.json 2>/dev/null || true;
+        chmod -R 777 /var/www/html/api/uploads 2>/dev/null || true;
+        mkdir -p /var/www/html/api/uploads;
+        chmod 777 /var/www/html/api/uploads;
+        apache2-foreground
+      "
+    networks:
+      - laozhang-network
+
+networks:
+  laozhang-network:
+    driver: bridge
+
+# 使用说明：
+# 1. 构建并启动：docker-compose up -d --build
+# 2. 查看日志：docker-compose logs -f
+# 3. 停止服务：docker-compose down
+# 4. 重启服务：docker-compose restart

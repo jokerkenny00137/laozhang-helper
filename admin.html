@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>后台管理 - 老张工艺助手</title>
   <meta name="description" content="老张工艺助手管理员后台管理系统">
-  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
   <!-- 样式文件 -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -473,10 +474,9 @@
     <aside class="admin-sidebar" id="adminSidebar">
       <div class="admin-sidebar-header">
         <a href="index.html" class="admin-brand">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 6v6l4 2"/>
-            <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
           </svg>
           <span>后台管理</span>
         </a>
@@ -672,39 +672,165 @@
           </div>
         </div>
 
-        <!-- 介绍页内容 -->
+        <!-- 产品概述模块 -->
         <div class="admin-card">
-          <h2 class="admin-card-title">介绍页正文</h2>
+          <h2 class="admin-card-title">产品概述</h2>
           <div class="setting-item">
-            <label class="setting-label">页面内容（支持简单换行）</label>
-            <textarea class="glass-input form-textarea" id="aboutContent" rows="10" placeholder="输入介绍页内容"></textarea>
-            <p class="setting-hint">在需要换行的地方直接回车即可</p>
+            <label class="setting-label">概述标题</label>
+            <input type="text" class="glass-input" id="overviewTitle" placeholder="为什么做老张工艺助手？">
           </div>
-        </div>
-
-        <!-- 介绍页图片 -->
-        <div class="admin-card">
-          <h2 class="admin-card-title">介绍页图片</h2>
           <div class="setting-item">
-            <label class="setting-label">上传图片（最多5张）</label>
-            <div class="thumbnail-grid" id="aboutImagesGrid">
-              <!-- 缩略图将在这里动态添加 -->
-              <div class="thumbnail-item thumbnail-add" id="addImageBtn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="12" y1="5" x2="12" y2="19"/>
-                  <line x1="5" y1="12" x2="19" y2="12"/>
+            <label class="setting-label">引导语</label>
+            <textarea class="glass-input form-textarea" id="overviewLead" rows="2" placeholder="机械加工工艺是..."></textarea>
+          </div>
+          <div id="painPointsList">
+            <!-- 痛点列表动态添加 -->
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">解决方案标题</label>
+            <input type="text" class="glass-input" id="solutionTitle" placeholder="解决方案">
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">解决方案内容</label>
+            <textarea class="glass-input form-textarea" id="solutionContent" rows="4" placeholder="老张工艺助手基于..."></textarea>
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">概述配图</label>
+            <div class="file-upload" id="overviewImageUpload">
+              <input type="file" id="overviewImageInput" accept="image/*">
+              <div class="file-upload-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
                 </svg>
               </div>
+              <div class="file-upload-text">点击上传概述配图</div>
+              <div class="file-upload-hint">支持 JPG、PNG 格式，最大 5MB</div>
             </div>
-            <input type="file" id="aboutImageInput" accept="image/*" style="display: none;">
+            <div class="file-upload-preview" id="overviewImagePreview" style="display: none;">
+              <img src="" alt="概述配图预览">
+              <button class="btn-secondary mt-md" id="removeOverviewImage" style="width: 100%;">移除图片</button>
+            </div>
           </div>
         </div>
 
-        <!-- 优势卡片 -->
+        <!-- 核心优势卡片 -->
         <div class="admin-card">
           <h2 class="admin-card-title">核心优势卡片</h2>
-          <div id="advantagesList">
-            <!-- 优势卡片将在这里动态添加 -->
+          <div id="advantagesList"></div>
+        </div>
+
+        <!-- 技术架构模块 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">技术架构</h2>
+          <div class="setting-item">
+            <label class="setting-label">技术架构标题</label>
+            <input type="text" class="glass-input" id="techTitle" placeholder="技术实现方案">
+          </div>
+          <div id="techCardsList"></div>
+          <div class="setting-item">
+            <label class="setting-label">架构配图</label>
+            <div class="file-upload" id="techImageUpload">
+              <input type="file" id="techImageInput" accept="image/*">
+              <div class="file-upload-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+              <div class="file-upload-text">点击上传架构配图</div>
+              <div class="file-upload-hint">支持 JPG、PNG 格式，最大 5MB</div>
+            </div>
+            <div class="file-upload-preview" id="techImagePreview" style="display: none;">
+              <img src="" alt="架构配图预览">
+              <button class="btn-secondary mt-md" id="removeTechImage" style="width: 100%;">移除图片</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 应用场景模块 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">应用场景</h2>
+          <div class="setting-item">
+            <label class="setting-label">场景总标题</label>
+            <input type="text" class="glass-input" id="scenariosTitle" placeholder="适合谁使用">
+          </div>
+          <div id="scenariosList"></div>
+        </div>
+
+        <!-- 团队介绍模块 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">团队介绍</h2>
+          <div class="setting-item">
+            <label class="setting-label">团队板块标题</label>
+            <input type="text" class="glass-input" id="teamTitle" placeholder="关于我们">
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">团队名称</label>
+            <input type="text" class="glass-input" id="teamName" placeholder="CICAS 参赛团队">
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">团队描述（用换行分隔段落）</label>
+            <textarea class="glass-input form-textarea" id="teamDesc" rows="6" placeholder="第一段描述...
+第二段描述..."></textarea>
+          </div>
+          <div id="teamStatsList"></div>
+          <div class="setting-item">
+            <label class="setting-label">团队配图</label>
+            <div class="file-upload" id="teamImageUpload">
+              <input type="file" id="teamImageInput" accept="image/*">
+              <div class="file-upload-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+              <div class="file-upload-text">点击上传团队配图</div>
+              <div class="file-upload-hint">支持 JPG、PNG 格式，最大 5MB</div>
+            </div>
+            <div class="file-upload-preview" id="teamImagePreview" style="display: none;">
+              <img src="" alt="团队配图预览">
+              <button class="btn-secondary mt-md" id="removeTeamImage" style="width: 100%;">移除图片</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA模块 -->
+        <div class="admin-card">
+          <h2 class="admin-card-title">CTA 区域</h2>
+          <div class="setting-item">
+            <label class="setting-label">CTA 标题</label>
+            <input type="text" class="glass-input" id="ctaTitle" placeholder="准备好开始学习了吗？">
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">CTA 描述</label>
+            <input type="text" class="glass-input" id="ctaDesc" placeholder="立即与老张对话...">
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">按钮文字</label>
+            <input type="text" class="glass-input" id="ctaButton" placeholder="开始对话">
+          </div>
+          <div class="setting-item">
+            <label class="setting-label">CTA 背景图</label>
+            <div class="file-upload" id="ctaBgUpload">
+              <input type="file" id="ctaBgInput" accept="image/*">
+              <div class="file-upload-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+              <div class="file-upload-text">点击上传CTA背景图</div>
+              <div class="file-upload-hint">支持 JPG、PNG 格式，最大 5MB</div>
+            </div>
+            <div class="file-upload-preview" id="ctaBgPreview" style="display: none;">
+              <img src="" alt="CTA背景图预览">
+              <button class="btn-secondary mt-md" id="removeCtaBg" style="width: 100%;">移除图片</button>
+            </div>
           </div>
         </div>
       </div>

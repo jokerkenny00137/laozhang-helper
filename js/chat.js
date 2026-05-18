@@ -28,12 +28,12 @@ const ChatManager = {
     userId: '70831129c3034bc79c80c420d1e61345'
   },
   
-  // 获取配置（从localStorage读取，支持后台切换）
+  // 获取配置（优先从服务器配置读取，其次 localStorage，最后默认值）
   getConfig() {
-    // 从StorageManager读取设置（如果可用）
-    const chatMode = localStorage.getItem('lz_chat_mode') || 'iframe';
-    const iframeUrl = localStorage.getItem('lz_iframe_url') || 'https://yuanqi.tencent.com/webim/#/chat/edOjNA?appid=2055110454115566656&experience=true';
-    
+    const serverConfig = window.serverConfig || {};
+    const chatMode = serverConfig.chatMode || localStorage.getItem('lz_chat_mode') || 'iframe';
+    const iframeUrl = serverConfig.iframeUrl || localStorage.getItem('lz_iframe_url') || 'https://yuanqi.tencent.com/webim/#/chat/edOjNA?appid=2055110454115566656&experience=true';
+
     return {
       mode: chatMode,
       iframe: {

@@ -27,11 +27,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     exit;
 }
 
+// 辅助函数：获取 Authorization Header（兼容各种 PHP 运行模式）
+function getAuthHeader() {
+    if (function_exists('getallheaders')) {
+        $headers = getallheaders();
+        if (isset($headers['Authorization'])) {
+            return $headers['Authorization'];
+        }
+    }
+    // 从 $_SERVER 获取（适用于 CGI/FPM 模式）
+    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+        return $_SERVER['HTTP_AUTHORIZATION'];
+    }
+    if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        return $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    }
+    return '';
+}
+
 // 保存配置（需要简单鉴权）
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 简单鉴权：检查管理员token
-    $headers = getallheaders();
-    $authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
+    $authHeader = getAuthHeader();
     
     // 默认token：laozhang2024（可在后台修改）
     if ($authHeader !== 'Bearer laozhang2024') {

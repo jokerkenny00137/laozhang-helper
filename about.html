@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>产品介绍 - 老张工艺助手</title>
   <meta name="description" content="了解老张工艺助手的核心优势、技术架构和应用场景，25年机加老师傅经验助力机械加工工艺学习">
-  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
   <!-- 样式文件 -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -14,6 +15,47 @@
   
   <!-- 主题色初始化 -->
   <style id="theme-style"></style>
+  
+  <!-- 背景音乐控件样式 -->
+  <style>
+    .audio-control {
+      display: flex;
+      align-items: center;
+      margin-left: 16px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(20, 20, 30, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .audio-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .audio-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--theme-primary);
+    }
+    
+    @media (max-width: 768px) {
+      .audio-control {
+        margin-left: auto;
+        margin-right: 12px;
+      }
+    }
+  </style>
 </head>
 <body class="grid-bg">
   <!-- 导航栏 -->
@@ -39,6 +81,21 @@
         <li><a href="about.html" class="active">介绍</a></li>
         <li><a href="login.html">后台管理</a></li>
       </ul>
+      
+      <!-- 背景音乐控件 -->
+      <div class="audio-control glass" id="audioControl" style="display: none;">
+        <button class="audio-btn" id="audioToggle" title="背景音乐">
+          <svg id="audioIconOn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+          <svg id="audioIconOff" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -193,6 +250,10 @@
             </div>
             
             <div class="tech-content">
+              <!-- 架构配图 -->
+              <div class="tech-image" style="display:none;margin-bottom:24px;">
+                <img src="" alt="架构配图" style="width:100%;border-radius:12px;object-fit:cover;">
+              </div>
               <!-- 流程图 -->
               <div class="tech-flow glass">
                 <div class="flow-step">
@@ -332,6 +393,9 @@
             </div>
             
             <div class="team-content glass">
+              <div class="team-image" style="display:none;margin-bottom:20px;">
+                <img src="" alt="团队配图" style="width:100%;border-radius:12px;object-fit:cover;">
+              </div>
               <div class="team-info">
                 <h3 class="team-name">CICAS 参赛团队</h3>
                 <p class="team-desc">
@@ -387,7 +451,7 @@
           </section>
 
           <!-- CTA区域 -->
-          <section class="about-cta">
+          <section class="about-cta" id="ctaSection">
             <div class="cta-content glass">
               <h2 class="cta-title">准备好开始学习了吗？</h2>
               <p class="cta-desc">立即与老张对话，开启你的工艺学习之旅</p>
@@ -471,53 +535,255 @@
   
   <!-- 页面特定脚本 -->
   <script>
-    // 从服务器加载配置
+    // 从服务器加载配置并渲染所有模块
     async function loadConfigFromServer() {
       try {
         const response = await fetch('./api/config.json?t=' + Date.now());
-        if (response.ok) {
-          const config = await response.json();
-          
-          // 更新页面标题
-          if (config.aboutTitle) {
-            document.title = config.aboutTitle + ' - 产品介绍';
-          }
-          
-          // 更新产品概述内容
-          if (config.aboutContent) {
-            const solutionBox = document.querySelector('.solution-box p');
-            if (solutionBox) {
-              solutionBox.textContent = config.aboutContent;
-            }
-          }
-          
-          // 更新优势卡片
-          if (config.advantages && config.advantages.length > 0) {
-            const advantageCards = document.querySelectorAll('.advantage-card');
-            config.advantages.forEach((adv, index) => {
-              if (advantageCards[index]) {
-                const titleEl = advantageCards[index].querySelector('.advantage-title');
-                const descEl = advantageCards[index].querySelector('.advantage-desc');
-                if (titleEl) titleEl.textContent = adv.title;
-                if (descEl) descEl.textContent = adv.desc;
-              }
-            });
-          }
-          
-          // 更新关于图片
-          if (config.aboutImages && config.aboutImages.length > 0) {
-            const imagePlaceholders = document.querySelectorAll('.image-placeholder, .scenario-image');
-            config.aboutImages.forEach((img, index) => {
-              if (imagePlaceholders[index]) {
-                imagePlaceholders[index].innerHTML = `<img src="${img}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`;
-              }
-            });
-          }
-          
-          console.log('已从服务器加载配置');
+        if (!response.ok) return;
+        const config = await response.json();
+        
+        // 更新页面标题
+        if (config.aboutTitle) {
+          document.title = config.aboutTitle + ' - 产品介绍';
         }
+        
+        // 渲染产品概述模块
+        renderOverview(config.overview);
+        
+        // 渲染优势卡片
+        renderAdvantages(config.advantages);
+        
+        // 渲染技术架构
+        renderTech(config.tech);
+        
+        // 渲染应用场景
+        renderScenarios(config.scenarios);
+        
+        // 渲染团队介绍
+        renderTeam(config.team);
+        
+        // 渲染CTA
+        renderCTA(config.cta);
+        
+        console.log('已从服务器加载模块化配置');
       } catch (error) {
         console.log('从服务器加载配置失败:', error);
+      }
+    }
+    
+    // 渲染产品概述
+    function renderOverview(overview) {
+      if (!overview) return;
+      const section = document.getElementById('overview');
+      if (!section) return;
+
+      // 标题
+      const titleEl = section.querySelector('.section-title');
+      if (titleEl && overview.title) titleEl.textContent = overview.title;
+
+      // 引导语
+      const leadEl = section.querySelector('.lead-text');
+      if (leadEl && overview.leadText) {
+        leadEl.innerHTML = overview.leadText.replace(/三大痛点/g, '<strong>三大痛点</strong>');
+      }
+
+      // 痛点列表
+      if (overview.painPoints && overview.painPoints.length > 0) {
+        const painPointsContainer = section.querySelector('.pain-points');
+        if (painPointsContainer) {
+          painPointsContainer.innerHTML = overview.painPoints.map(pp => `
+            <div class="pain-point">
+              <div class="pain-point-icon">${pp.icon || '•'}</div>
+              <div class="pain-point-content">
+                <h4>${pp.title}</h4>
+                <p>${pp.desc}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // 解决方案
+      const solutionBox = section.querySelector('.solution-box');
+      if (solutionBox) {
+        const solTitle = solutionBox.querySelector('h4');
+        const solContent = solutionBox.querySelector('p');
+        if (solTitle && overview.solutionTitle) solTitle.innerHTML = `💡 ${overview.solutionTitle}`;
+        if (solContent && overview.solutionContent) solContent.innerHTML = `<strong>${overview.solutionContent.match(/^[^，。]+/)}</strong>${overview.solutionContent.replace(/^[^，。]+/, '')}`;
+      }
+
+      // 概述配图
+      const placeholder = section.querySelector('.image-placeholder');
+      if (placeholder && overview.image) {
+        placeholder.innerHTML = `<img src="${overview.image}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" alt="产品概述图">`;
+      }
+    }
+    
+    // 渲染优势卡片
+    function renderAdvantages(advantages) {
+      if (!advantages || advantages.length === 0) return;
+      const grid = document.querySelector('.advantages-grid');
+      if (!grid) return;
+      
+      const cards = grid.querySelectorAll('.advantage-card');
+      advantages.forEach((adv, index) => {
+        if (cards[index]) {
+          const titleEl = cards[index].querySelector('.advantage-title');
+          const descEl = cards[index].querySelector('.advantage-desc');
+          if (titleEl) titleEl.textContent = adv.title;
+          if (descEl) descEl.textContent = adv.desc;
+        }
+      });
+    }
+    
+    // 渲染技术架构
+    function renderTech(tech) {
+      if (!tech) return;
+      const section = document.getElementById('tech');
+      if (!section) return;
+
+      const titleEl = section.querySelector('.section-title');
+      if (titleEl && tech.title) titleEl.textContent = tech.title;
+
+      // 架构配图
+      const techImgWrap = section.querySelector('.tech-image');
+      const techImg = techImgWrap ? techImgWrap.querySelector('img') : null;
+      if (techImgWrap && techImg && tech.image) {
+        techImg.src = tech.image;
+        techImgWrap.style.display = 'block';
+      } else if (techImgWrap && !tech.image) {
+        techImgWrap.style.display = 'none';
+      }
+
+      if (tech.cards && tech.cards.length > 0) {
+        const techCards = section.querySelectorAll('.tech-card');
+        tech.cards.forEach((card, index) => {
+          if (techCards[index]) {
+            const title = techCards[index].querySelector('.tech-card-title');
+            const list = techCards[index].querySelector('.tech-list');
+            if (title) {
+              // 保留图标，替换文字
+              const iconSvg = title.querySelector('svg');
+              title.innerHTML = '';
+              if (iconSvg) title.appendChild(iconSvg);
+              title.appendChild(document.createTextNode(' ' + card.title));
+            }
+            if (list && card.items) {
+              list.innerHTML = card.items.map(item => {
+                const parts = item.split(' - ');
+                if (parts.length === 2) {
+                  return `<li><strong>${parts[0]}</strong> - ${parts[1]}</li>`;
+                }
+                return `<li>${item}</li>`;
+              }).join('');
+            }
+          }
+        });
+      }
+    }
+    
+    // 渲染应用场景
+    function renderScenarios(scenarios) {
+      if (!scenarios) return;
+      const section = document.getElementById('scenarios');
+      if (!section) return;
+      
+      const titleEl = section.querySelector('.section-title');
+      if (titleEl && scenarios.title) titleEl.textContent = scenarios.title;
+      
+      if (scenarios.cards && scenarios.cards.length > 0) {
+        const scenarioCards = section.querySelectorAll('.scenario-card');
+        scenarios.cards.forEach((card, index) => {
+          if (scenarioCards[index]) {
+            const iconEl = scenarioCards[index].querySelector('.scenario-icon-large');
+            const title = scenarioCards[index].querySelector('.scenario-title');
+            const desc = scenarioCards[index].querySelector('.scenario-desc');
+            const tagsContainer = scenarioCards[index].querySelector('.scenario-tags');
+            
+            if (iconEl && card.icon) iconEl.textContent = card.icon;
+            if (title && card.title) title.textContent = card.title;
+            if (desc && card.desc) desc.textContent = card.desc;
+            if (tagsContainer && card.tags) {
+              tagsContainer.innerHTML = card.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            }
+          }
+        });
+      }
+    }
+    
+    // 渲染团队介绍
+    function renderTeam(team) {
+      if (!team) return;
+      const section = document.getElementById('team');
+      if (!section) return;
+
+      const titleEl = section.querySelector('.section-title');
+      if (titleEl && team.title) titleEl.textContent = team.title;
+
+      const nameEl = section.querySelector('.team-name');
+      if (nameEl && team.name) nameEl.textContent = team.name;
+
+      const descEls = section.querySelectorAll('.team-desc');
+      if (team.desc && descEls.length > 0) {
+        const descParts = team.desc.split('\n').filter(p => p.trim());
+        descEls.forEach((el, index) => {
+          if (descParts[index]) {
+            // 保留strong标签
+            el.innerHTML = descParts[index];
+          }
+        });
+      }
+
+      if (team.stats && team.stats.length > 0) {
+        const statItems = section.querySelectorAll('.stat-item');
+        team.stats.forEach((stat, index) => {
+          if (statItems[index]) {
+            const numEl = statItems[index].querySelector('.stat-number');
+            const labelEl = statItems[index].querySelector('.stat-label');
+            if (numEl) numEl.textContent = stat.number;
+            if (labelEl) labelEl.textContent = stat.label;
+          }
+        });
+      }
+
+      // 团队配图
+      const teamImgWrap = section.querySelector('.team-image');
+      const teamImg = teamImgWrap ? teamImgWrap.querySelector('img') : null;
+      if (teamImgWrap && teamImg && team.image) {
+        teamImg.src = team.image;
+        teamImgWrap.style.display = 'block';
+      } else if (teamImgWrap && !team.image) {
+        teamImgWrap.style.display = 'none';
+      }
+    }
+
+    // 渲染CTA
+    function renderCTA(cta) {
+      if (!cta) return;
+      const section = document.querySelector('.about-cta');
+      if (!section) return;
+
+      const titleEl = section.querySelector('.cta-title');
+      const descEl = section.querySelector('.cta-desc');
+      const btnEl = section.querySelector('.btn-primary');
+
+      if (titleEl && cta.title) titleEl.textContent = cta.title;
+      if (descEl && cta.desc) descEl.textContent = cta.desc;
+      if (btnEl && cta.buttonText) {
+        // 保留图标
+        const svg = btnEl.querySelector('svg');
+        btnEl.innerHTML = '';
+        if (svg) btnEl.appendChild(svg);
+        btnEl.appendChild(document.createTextNode(' ' + cta.buttonText));
+      }
+
+      // CTA背景图
+      if (cta.backgroundImage) {
+        section.style.backgroundImage = `url('${cta.backgroundImage}')`;
+        section.style.backgroundSize = 'cover';
+        section.style.backgroundPosition = 'center';
+      } else {
+        section.style.backgroundImage = '';
       }
     }
     
@@ -529,19 +795,14 @@
       const sections = document.querySelectorAll('.about-section');
       const navLinks = document.querySelectorAll('.sidebar-nav-link');
       
-      // 滚动监听
       window.addEventListener('scroll', () => {
         let current = '';
-        
         sections.forEach(section => {
           const sectionTop = section.offsetTop;
-          const sectionHeight = section.clientHeight;
-          
           if (pageYOffset >= sectionTop - 200) {
             current = section.getAttribute('id');
           }
         });
-        
         navLinks.forEach(link => {
           link.classList.remove('active');
           if (link.getAttribute('href') === '#' + current) {
@@ -549,7 +810,75 @@
           }
         });
       });
+      
+      // 加载背景音乐
+      loadBackgroundAudioFromServer();
     });
+    
+    // 从服务器加载背景音乐
+    async function loadBackgroundAudioFromServer() {
+      try {
+        const response = await fetch('./api/config.json?t=' + Date.now());
+        if (!response.ok) return;
+        const config = await response.json();
+        if (config.backgroundAudio) {
+          loadBackgroundAudio(config.backgroundAudio);
+        }
+      } catch (error) {
+        console.log('加载背景音乐配置失败:', error);
+      }
+    }
+    
+    // 加载背景音乐
+    function loadBackgroundAudio(audioUrl) {
+      const audioControl = document.getElementById('audioControl');
+      const audioToggle = document.getElementById('audioToggle');
+      const audioIconOn = document.getElementById('audioIconOn');
+      const audioIconOff = document.getElementById('audioIconOff');
+      
+      if (!audioControl || !audioToggle) return;
+      
+      // 创建音频元素
+      const audio = document.createElement('audio');
+      audio.id = 'bgAudio';
+      audio.loop = true;
+      audio.volume = 0.3;
+      audio.src = audioUrl;
+      document.body.appendChild(audio);
+      
+      // 显示音频控制按钮
+      audioControl.style.display = 'flex';
+      
+      // 默认开启背景音乐
+      let isMuted = false;
+      audio.muted = false;
+      audioIconOn.style.display = 'block';
+      audioIconOff.style.display = 'none';
+      
+      // 点击切换静音/播放
+      audioToggle.addEventListener('click', () => {
+        isMuted = !isMuted;
+        audio.muted = isMuted;
+        
+        if (isMuted) {
+          audioIconOn.style.display = 'none';
+          audioIconOff.style.display = 'block';
+          audio.pause();
+        } else {
+          audioIconOn.style.display = 'block';
+          audioIconOff.style.display = 'none';
+          audio.play().catch(e => console.log('音频播放失败:', e));
+        }
+      });
+      
+      // 尝试自动播放（可能被浏览器阻止）
+      document.addEventListener('click', function initAudio() {
+        if (!isMuted) {
+          audio.play().catch(e => console.log('音频播放失败:', e));
+        }
+        document.removeEventListener('click', initAudio);
+      }, { once: true });
+    }
   </script>
 </body>
 </html>

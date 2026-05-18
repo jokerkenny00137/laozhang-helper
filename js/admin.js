@@ -17,7 +17,12 @@ const AdminManager = {
     aboutImages: [],
     advantages: [],
     chatMode: 'iframe',
-    iframeUrl: ''
+    iframeUrl: '',
+    overview: null,
+    tech: null,
+    scenarios: null,
+    team: null,
+    cta: null
   },
   
   // 初始化
@@ -50,12 +55,18 @@ const AdminManager = {
       if (serverConfig) {
         this.data.theme = serverConfig.theme || 'orange';
         this.data.bgImage = serverConfig.backgroundImage || null;
+        this.data.bgAudio = serverConfig.backgroundAudio ? { url: serverConfig.backgroundAudio } : null;
         this.data.aboutTitle = serverConfig.aboutTitle || '老张工艺助手';
         this.data.aboutContent = serverConfig.aboutContent || '';
         this.data.aboutImages = serverConfig.aboutImages || [];
         this.data.advantages = serverConfig.advantages || this.getDefaultAdvantages();
         this.data.chatMode = serverConfig.chatMode || 'iframe';
         this.data.iframeUrl = serverConfig.iframeUrl || 'https://yuanqi.tencent.com/webim/#/chat/edOjNA?appid=2055110454115566656&experience=true';
+        this.data.overview = serverConfig.overview || this.getDefaultOverview();
+        this.data.tech = serverConfig.tech || this.getDefaultTech();
+        this.data.scenarios = serverConfig.scenarios || this.getDefaultScenarios();
+        this.data.team = serverConfig.team || this.getDefaultTeam();
+        this.data.cta = serverConfig.cta || this.getDefaultCTA();
         
         console.log('已从服务器加载配置');
       } else {
@@ -73,12 +84,18 @@ const AdminManager = {
   setDefaultData() {
     this.data.theme = 'orange';
     this.data.bgImage = null;
+    this.data.bgAudio = null;
     this.data.aboutTitle = '老张工艺助手';
     this.data.aboutContent = '';
     this.data.aboutImages = [];
     this.data.advantages = this.getDefaultAdvantages();
     this.data.chatMode = 'iframe';
     this.data.iframeUrl = 'https://yuanqi.tencent.com/webim/#/chat/edOjNA?appid=2055110454115566656&experience=true';
+    this.data.overview = this.getDefaultOverview();
+    this.data.tech = this.getDefaultTech();
+    this.data.scenarios = this.getDefaultScenarios();
+    this.data.team = this.getDefaultTeam();
+    this.data.cta = this.getDefaultCTA();
   },
   
   // 获取默认优势
@@ -89,6 +106,72 @@ const AdminManager = {
       { title: '零代码搭建', desc: '基于腾讯元器/Coze，低门槛快速部署' },
       { title: '工艺全覆盖', desc: '车铣钻磨、铸锻焊、热处理、特种加工全涵盖' }
     ];
+  },
+  
+  // 获取默认产品概述
+  getDefaultOverview() {
+    return {
+      title: '为什么做老张工艺助手？',
+      leadText: '机械加工工艺是机械工程的核心技能，但学习过程中存在三大痛点：',
+      painPoints: [
+        { icon: '📚', title: '工艺基础薄弱', desc: '机械专业学生在校期间以理论学习为主，缺乏实际操作经验。' },
+        { icon: '👨‍🏭', title: '老师傅经验断层', desc: '经验丰富的老师傅即将退休，年轻学徒很难获得系统的工艺指导。' },
+        { icon: '🔍', title: '优质资源分散', desc: 'B站、知乎上的工艺知识良莠不齐，缺乏权威系统的学习平台。' }
+      ],
+      solutionTitle: '解决方案',
+      solutionContent: '老张工艺助手基于腾讯元器AI平台开发，以25年机加老师傅人设，用口语化方式讲解机械加工工艺。',
+      image: ''
+    };
+  },
+
+  // 获取默认技术架构
+  getDefaultTech() {
+    return {
+      title: '技术实现方案',
+      cards: [
+        { title: '大模型能力', items: ['DeepSeek-R1 - 深度推理能力', '腾讯混元 - 中文语义理解', '人设Prompt工程 - 精准调教'] },
+        { title: '知识来源', items: ['内置知识库 - 工艺手册', 'DuckDuckGo搜索 - 实时信息', '视频资源索引 - B站教程'] },
+        { title: '前端技术栈', items: ['纯HTML/CSS/JS - 轻量高效', '液态玻璃UI - 美观现代', 'Canvas粒子系统 - 性能友好'] }
+      ],
+      image: ''
+    };
+  },
+
+  // 获取默认应用场景
+  getDefaultScenarios() {
+    return {
+      title: '适合谁使用',
+      cards: [
+        { icon: '📖', title: '课堂预习', desc: '课前先用老张过一遍概念，带着问题去上课。', tags: ['大学生', '课前准备'] },
+        { icon: '🔧', title: '实训备考', desc: '金工实习前恶补操作要领，实习时心里有底。', tags: ['金工实习', '技能考证'] },
+        { icon: '🎓', title: '毕业设计', desc: '工艺规程编制遇到瓶颈？从毛坯选择到工序安排给你建议。', tags: ['毕业设计', '工艺设计'] }
+      ]
+    };
+  },
+
+  // 获取默认团队介绍
+  getDefaultTeam() {
+    return {
+      title: '关于我们',
+      name: 'CICAS 参赛团队',
+      desc: '我们是一支热爱机械工程与人工智能的学生团队。\n本项目基于腾讯元器平台开发，融合大模型能力。',
+      stats: [
+        { number: '25年', label: '虚拟经验' },
+        { number: '100+', label: '工艺知识' },
+        { number: '7×24', label: '在线服务' }
+      ],
+      image: ''
+    };
+  },
+
+  // 获取默认CTA
+  getDefaultCTA() {
+    return {
+      title: '准备好开始学习了吗？',
+      desc: '立即与老张对话，开启你的工艺学习之旅',
+      buttonText: '开始对话',
+      backgroundImage: ''
+    };
   },
   
   // 初始化DOM元素引用
@@ -129,11 +212,49 @@ const AdminManager = {
       
       // 内容管理
       aboutTitle: document.getElementById('aboutTitle'),
-      aboutContent: document.getElementById('aboutContent'),
-      aboutImagesGrid: document.getElementById('aboutImagesGrid'),
-      aboutImageInput: document.getElementById('aboutImageInput'),
-      addImageBtn: document.getElementById('addImageBtn'),
-      advantagesList: document.getElementById('advantagesList')
+      advantagesList: document.getElementById('advantagesList'),
+
+      // 产品概述
+      overviewTitle: document.getElementById('overviewTitle'),
+      overviewLead: document.getElementById('overviewLead'),
+      painPointsList: document.getElementById('painPointsList'),
+      solutionTitle: document.getElementById('solutionTitle'),
+      solutionContent: document.getElementById('solutionContent'),
+      overviewImageUpload: document.getElementById('overviewImageUpload'),
+      overviewImageInput: document.getElementById('overviewImageInput'),
+      overviewImagePreview: document.getElementById('overviewImagePreview'),
+      removeOverviewImage: document.getElementById('removeOverviewImage'),
+
+      // 技术架构
+      techTitle: document.getElementById('techTitle'),
+      techCardsList: document.getElementById('techCardsList'),
+      techImageUpload: document.getElementById('techImageUpload'),
+      techImageInput: document.getElementById('techImageInput'),
+      techImagePreview: document.getElementById('techImagePreview'),
+      removeTechImage: document.getElementById('removeTechImage'),
+
+      // 应用场景
+      scenariosTitle: document.getElementById('scenariosTitle'),
+      scenariosList: document.getElementById('scenariosList'),
+
+      // 团队介绍
+      teamTitle: document.getElementById('teamTitle'),
+      teamName: document.getElementById('teamName'),
+      teamDesc: document.getElementById('teamDesc'),
+      teamStatsList: document.getElementById('teamStatsList'),
+      teamImageUpload: document.getElementById('teamImageUpload'),
+      teamImageInput: document.getElementById('teamImageInput'),
+      teamImagePreview: document.getElementById('teamImagePreview'),
+      removeTeamImage: document.getElementById('removeTeamImage'),
+
+      // CTA
+      ctaTitle: document.getElementById('ctaTitle'),
+      ctaDesc: document.getElementById('ctaDesc'),
+      ctaButton: document.getElementById('ctaButton'),
+      ctaBgUpload: document.getElementById('ctaBgUpload'),
+      ctaBgInput: document.getElementById('ctaBgInput'),
+      ctaBgPreview: document.getElementById('ctaBgPreview'),
+      removeCtaBg: document.getElementById('removeCtaBg')
     };
   },
   
@@ -171,14 +292,27 @@ const AdminManager = {
     }
     
     // 初始化内容管理
-    this.elements.aboutTitle.value = this.data.aboutTitle;
-    this.elements.aboutContent.value = this.data.aboutContent;
-    
-    // 初始化图片列表
-    this.renderAboutImages();
-    
+    if (this.elements.aboutTitle) {
+      this.elements.aboutTitle.value = this.data.aboutTitle;
+    }
+
     // 初始化优势卡片
     this.renderAdvantages();
+    
+    // 初始化产品概述
+    this.renderOverviewEditor();
+    
+    // 初始化技术架构
+    this.renderTechEditor();
+    
+    // 初始化应用场景
+    this.renderScenariosEditor();
+    
+    // 初始化团队介绍
+    this.renderTeamEditor();
+    
+    // 初始化CTA
+    this.renderCTAEditor();
     
     // 初始化对话模式
     this.initChatModeUI();
@@ -217,9 +351,11 @@ const AdminManager = {
   // 绑定事件
   bindEvents() {
     // 移动端菜单切换
-    this.elements.mobileToggle.addEventListener('click', () => {
-      this.elements.sidebar.classList.toggle('open');
-    });
+    if (this.elements.mobileToggle) {
+      this.elements.mobileToggle.addEventListener('click', () => {
+        this.elements.sidebar.classList.toggle('open');
+      });
+    }
     
     // 导航链接点击
     this.elements.navLinks.forEach(link => {
@@ -233,24 +369,30 @@ const AdminManager = {
     });
     
     // 退出登录
-    this.elements.logoutBtn.addEventListener('click', () => {
-      if (confirm('确定要退出登录吗？')) {
-        StorageManager.setLoggedIn(false);
-        window.location.href = 'login.html';
-      }
-    });
+    if (this.elements.logoutBtn) {
+      this.elements.logoutBtn.addEventListener('click', () => {
+        if (confirm('确定要退出登录吗？')) {
+          StorageManager.setLoggedIn(false);
+          window.location.href = 'login.html';
+        }
+      });
+    }
     
     // 保存设置
-    this.elements.saveBtn.addEventListener('click', () => {
-      this.saveSettings();
-    });
+    if (this.elements.saveBtn) {
+      this.elements.saveBtn.addEventListener('click', () => {
+        this.saveSettings();
+      });
+    }
     
     // 重置默认
-    this.elements.resetBtn.addEventListener('click', () => {
-      if (confirm('确定要重置所有设置吗？此操作不可恢复。')) {
-        this.resetSettings();
-      }
-    });
+    if (this.elements.resetBtn) {
+      this.elements.resetBtn.addEventListener('click', () => {
+        if (confirm('确定要重置所有设置吗？此操作不可恢复。')) {
+          this.resetSettings();
+        }
+      });
+    }
     
     // 主题选择
     this.elements.themeOptions.forEach(option => {
@@ -275,80 +417,161 @@ const AdminManager = {
     }
     
     // 背景图片上传
-    this.elements.bgImageUpload.addEventListener('click', () => {
-      this.elements.bgImageInput.click();
-    });
-    
-    this.elements.bgImageUpload.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      this.elements.bgImageUpload.style.borderColor = 'var(--theme-primary)';
-    });
-    
-    this.elements.bgImageUpload.addEventListener('dragleave', () => {
-      this.elements.bgImageUpload.style.borderColor = '';
-    });
-    
-    this.elements.bgImageUpload.addEventListener('drop', (e) => {
-      e.preventDefault();
-      this.elements.bgImageUpload.style.borderColor = '';
+    if (this.elements.bgImageUpload) {
+      this.elements.bgImageUpload.addEventListener('click', () => {
+        if (this.elements.bgImageInput) this.elements.bgImageInput.click();
+      });
       
-      const files = e.dataTransfer.files;
-      if (files.length > 0) {
-        this.handleBgImageUpload(files[0]);
-      }
-    });
+      this.elements.bgImageUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        this.elements.bgImageUpload.style.borderColor = 'var(--theme-primary)';
+      });
+      
+      this.elements.bgImageUpload.addEventListener('dragleave', () => {
+        this.elements.bgImageUpload.style.borderColor = '';
+      });
+      
+      this.elements.bgImageUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        this.elements.bgImageUpload.style.borderColor = '';
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          this.handleBgImageUpload(files[0]);
+        }
+      });
+    }
     
-    this.elements.bgImageInput.addEventListener('change', (e) => {
-      if (e.target.files.length > 0) {
-        this.handleBgImageUpload(e.target.files[0]);
-      }
-    });
+    if (this.elements.bgImageInput) {
+      this.elements.bgImageInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          this.handleBgImageUpload(e.target.files[0]);
+        }
+      });
+    }
     
     // 移除背景图片
-    this.elements.removeBgImage.addEventListener('click', () => {
-      this.removeBgImage();
-    });
+    if (this.elements.removeBgImage) {
+      this.elements.removeBgImage.addEventListener('click', () => {
+        this.removeBgImage();
+      });
+    }
     
     // 背景音乐上传
-    this.elements.bgAudioUpload.addEventListener('click', () => {
-      this.elements.bgAudioInput.click();
-    });
+    if (this.elements.bgAudioUpload) {
+      this.elements.bgAudioUpload.addEventListener('click', () => {
+        if (this.elements.bgAudioInput) this.elements.bgAudioInput.click();
+      });
+    }
     
-    this.elements.bgAudioInput.addEventListener('change', (e) => {
-      if (e.target.files.length > 0) {
-        this.handleBgAudioUpload(e.target.files[0]);
-      }
-    });
+    if (this.elements.bgAudioInput) {
+      this.elements.bgAudioInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          this.handleBgAudioUpload(e.target.files[0]);
+        }
+      });
+    }
     
     // 移除背景音乐
-    this.elements.removeBgAudio.addEventListener('click', () => {
-      this.removeBgAudio();
-    });
-    
-    // 添加图片按钮
-    this.elements.addImageBtn.addEventListener('click', () => {
-      if (this.data.aboutImages.length < 5) {
-        this.elements.aboutImageInput.click();
-      } else {
-        alert('最多只能上传5张图片');
-      }
-    });
-    
-    // 图片上传
-    this.elements.aboutImageInput.addEventListener('change', (e) => {
-      if (e.target.files.length > 0) {
-        this.handleAboutImageUpload(e.target.files[0]);
-      }
-    });
+    if (this.elements.removeBgAudio) {
+      this.elements.removeBgAudio.addEventListener('click', () => {
+        this.removeBgAudio();
+      });
+    }
     
     // 自动保存输入内容
-    this.elements.aboutTitle.addEventListener('blur', () => {
-      StorageManager.setAboutTitle(this.elements.aboutTitle.value);
-    });
-    
-    this.elements.aboutContent.addEventListener('blur', () => {
-      StorageManager.setAboutContent(this.elements.aboutContent.value);
-    });
+    if (this.elements.aboutTitle) {
+      this.elements.aboutTitle.addEventListener('blur', () => {
+        StorageManager.setAboutTitle(this.elements.aboutTitle.value);
+      });
+    }
+
+    // 各模块图片上传事件
+    this.bindModuleImageEvents('overview');
+    this.bindModuleImageEvents('tech');
+    this.bindModuleImageEvents('team');
+    this.bindModuleImageEvents('cta');
+  },
+
+  // 绑定模块图片上传事件
+  bindModuleImageEvents(module) {
+    const uploadMap = {
+      overview: { upload: 'overviewImageUpload', input: 'overviewImageInput', remove: 'removeOverviewImage', dataKey: 'overview', imageKey: 'image' },
+      tech: { upload: 'techImageUpload', input: 'techImageInput', remove: 'removeTechImage', dataKey: 'tech', imageKey: 'image' },
+      team: { upload: 'teamImageUpload', input: 'teamImageInput', remove: 'removeTeamImage', dataKey: 'team', imageKey: 'image' },
+      cta: { upload: 'ctaBgUpload', input: 'ctaBgInput', remove: 'removeCtaBg', dataKey: 'cta', imageKey: 'backgroundImage' }
+    };
+    const cfg = uploadMap[module];
+    if (!cfg) return;
+    const uploadEl = this.elements[cfg.upload];
+    const inputEl = this.elements[cfg.input];
+    const removeEl = this.elements[cfg.remove];
+    if (uploadEl && inputEl) {
+      uploadEl.addEventListener('click', () => inputEl.click());
+      inputEl.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          this.handleModuleImageUpload(module, e.target.files[0]);
+        }
+      });
+    }
+    if (removeEl) {
+      removeEl.addEventListener('click', () => {
+        if (this.data[cfg.dataKey]) {
+          this.data[cfg.dataKey][cfg.imageKey] = '';
+        }
+        this.showModuleImagePreview(module, '');
+      });
+    }
+  },
+
+  // 处理模块图片上传
+  async handleModuleImageUpload(module, file) {
+    try {
+      StorageManager.validateImage(file);
+      this.showNotification('正在上传图片...', 'info');
+      const result = await ServerStorage.uploadImage(file);
+      if (result.success) {
+        const dataKey = module === 'cta' ? 'cta' : module;
+        const imageKey = module === 'cta' ? 'backgroundImage' : 'image';
+        if (!this.data[dataKey]) {
+          this.data[dataKey] = {};
+        }
+        this.data[dataKey][imageKey] = result.url;
+        this.showModuleImagePreview(module, result.url);
+        this.showNotification('图片上传成功！', 'success');
+      }
+    } catch (error) {
+      this.showNotification('上传失败: ' + error.message, 'error');
+    }
+    const inputMap = { overview: 'overviewImageInput', tech: 'techImageInput', team: 'teamImageInput', cta: 'ctaBgInput' };
+    const inputEl = this.elements[inputMap[module]];
+    if (inputEl) inputEl.value = '';
+  },
+
+  // 显示模块图片预览
+  showModuleImagePreview(module, url) {
+    const map = {
+      overview: { upload: 'overviewImageUpload', preview: 'overviewImagePreview' },
+      tech: { upload: 'techImageUpload', preview: 'techImagePreview' },
+      team: { upload: 'teamImageUpload', preview: 'teamImagePreview' },
+      cta: { upload: 'ctaBgUpload', preview: 'ctaBgPreview' }
+    };
+    const cfg = map[module];
+    if (!cfg) return;
+    const uploadEl = this.elements[cfg.upload];
+    const previewEl = this.elements[cfg.preview];
+    if (!uploadEl || !previewEl) return;
+    if (url) {
+      uploadEl.style.display = 'none';
+      previewEl.style.display = 'block';
+      const img = previewEl.querySelector('img');
+      if (img) img.src = url;
+    } else {
+      uploadEl.style.display = 'flex';
+      previewEl.style.display = 'none';
+      const img = previewEl.querySelector('img');
+      if (img) img.src = '';
+    }
   },
   
   // 切换面板
@@ -453,18 +676,24 @@ const AdminManager = {
   
   // 显示背景图片预览
   showBgImagePreview(imageData) {
-    this.elements.bgImageUpload.style.display = 'none';
-    this.elements.bgImagePreview.style.display = 'block';
-    this.elements.bgImagePreview.querySelector('img').src = imageData;
+    if (this.elements.bgImageUpload) this.elements.bgImageUpload.style.display = 'none';
+    if (this.elements.bgImagePreview) {
+      this.elements.bgImagePreview.style.display = 'block';
+      const img = this.elements.bgImagePreview.querySelector('img');
+      if (img) img.src = imageData;
+    }
   },
   
   // 移除背景图片
   removeBgImage() {
     this.data.bgImage = null;
-    this.elements.bgImageUpload.style.display = 'flex';
-    this.elements.bgImagePreview.style.display = 'none';
-    this.elements.bgImagePreview.querySelector('img').src = '';
-    this.elements.bgImageInput.value = '';
+    if (this.elements.bgImageUpload) this.elements.bgImageUpload.style.display = 'flex';
+    if (this.elements.bgImagePreview) {
+      this.elements.bgImagePreview.style.display = 'none';
+      const img = this.elements.bgImagePreview.querySelector('img');
+      if (img) img.src = '';
+    }
+    if (this.elements.bgImageInput) this.elements.bgImageInput.value = '';
   },
   
   // 处理背景音乐上传 - 上传到服务器
@@ -507,23 +736,25 @@ const AdminManager = {
   
   // 显示背景音乐预览
   showBgAudioPreview(audioInfo) {
-    this.elements.bgAudioUpload.style.display = 'none';
-    this.elements.bgAudioPreview.style.display = 'block';
+    if (this.elements.bgAudioUpload) this.elements.bgAudioUpload.style.display = 'none';
+    if (this.elements.bgAudioPreview) this.elements.bgAudioPreview.style.display = 'block';
     
     // 如果有临时URL则播放，否则显示文件信息
     if (audioInfo.url) {
-      this.elements.bgAudioPlayer.src = audioInfo.url;
+      if (this.elements.bgAudioPlayer) this.elements.bgAudioPlayer.src = audioInfo.url;
     } else {
       // 只显示文件信息，提示用户重新上传
-      this.elements.bgAudioPlayer.style.display = 'none';
-      const infoDiv = document.createElement('div');
-      infoDiv.className = 'audio-info';
-      infoDiv.innerHTML = `
-        <p>已选择: ${audioInfo.name}</p>
-        <p class="text-muted">大小: ${(audioInfo.size / 1024 / 1024).toFixed(2)} MB</p>
-        <p class="text-muted text-small">（请重新上传以播放）</p>
-      `;
-      this.elements.bgAudioPreview.appendChild(infoDiv);
+      if (this.elements.bgAudioPlayer) this.elements.bgAudioPlayer.style.display = 'none';
+      if (this.elements.bgAudioPreview) {
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'audio-info';
+        infoDiv.innerHTML = `
+          <p>已选择: ${audioInfo.name}</p>
+          <p class="text-muted">大小: ${(audioInfo.size / 1024 / 1024).toFixed(2)} MB</p>
+          <p class="text-muted text-small">（请重新上传以播放）</p>
+        `;
+        this.elements.bgAudioPreview.appendChild(infoDiv);
+      }
     }
   },
   
@@ -533,87 +764,10 @@ const AdminManager = {
       URL.revokeObjectURL(this.data.bgAudio.url);
     }
     this.data.bgAudio = null;
-    this.elements.bgAudioUpload.style.display = 'flex';
-    this.elements.bgAudioPreview.style.display = 'none';
-    this.elements.bgAudioPlayer.src = '';
-    this.elements.bgAudioInput.value = '';
-  },
-  
-  // 处理介绍页图片上传
-  async handleAboutImageUpload(file) {
-    try {
-      if (this.data.aboutImages.length >= 5) {
-        this.showNotification('最多只能上传5张图片', 'warning');
-        return;
-      }
-      
-      StorageManager.validateImage(file);
-      
-      this.showNotification('正在上传图片...', 'info');
-      
-      // 上传到服务器
-      const result = await ServerStorage.uploadImage(file);
-      
-      if (result.success) {
-        this.data.aboutImages.push(result.url);
-        this.renderAboutImages();
-        this.showNotification('图片上传成功！', 'success');
-      }
-    } catch (error) {
-      this.showNotification('上传失败: ' + error.message, 'error');
-    }
-    
-    // 清空input以便重复选择同一文件
-    this.elements.aboutImageInput.value = '';
-  },
-  
-  // 渲染介绍页图片列表
-  renderAboutImages() {
-    // 清空现有内容
-    this.elements.aboutImagesGrid.innerHTML = '';
-    
-    // 添加图片缩略图
-    this.data.aboutImages.forEach((image, index) => {
-      const item = document.createElement('div');
-      item.className = 'thumbnail-item';
-      item.innerHTML = `
-        <img src="${image}" alt="图片 ${index + 1}">
-        <button class="thumbnail-remove" data-index="${index}" title="删除">×</button>
-      `;
-      this.elements.aboutImagesGrid.appendChild(item);
-    });
-    
-    // 添加按钮
-    if (this.data.aboutImages.length < 5) {
-      const addBtn = document.createElement('div');
-      addBtn.className = 'thumbnail-item thumbnail-add';
-      addBtn.id = 'addImageBtn';
-      addBtn.innerHTML = `
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"/>
-          <line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
-      `;
-      addBtn.addEventListener('click', () => {
-        this.elements.aboutImageInput.click();
-      });
-      this.elements.aboutImagesGrid.appendChild(addBtn);
-    }
-    
-    // 绑定删除事件
-    this.elements.aboutImagesGrid.querySelectorAll('.thumbnail-remove').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const index = parseInt(e.currentTarget.dataset.index);
-        this.removeAboutImage(index);
-      });
-    });
-  },
-  
-  // 删除介绍页图片
-  removeAboutImage(index) {
-    StorageManager.removeAboutImage(index);
-    this.data.aboutImages.splice(index, 1);
-    this.renderAboutImages();
+    if (this.elements.bgAudioUpload) this.elements.bgAudioUpload.style.display = 'flex';
+    if (this.elements.bgAudioPreview) this.elements.bgAudioPreview.style.display = 'none';
+    if (this.elements.bgAudioPlayer) this.elements.bgAudioPlayer.src = '';
+    if (this.elements.bgAudioInput) this.elements.bgAudioInput.value = '';
   },
   
   // 渲染优势卡片编辑
@@ -664,30 +818,258 @@ const AdminManager = {
     StorageManager.setAdvantages(this.data.advantages);
   },
   
+  // 渲染产品概述编辑器
+  renderOverviewEditor() {
+    const ov = this.data.overview || this.getDefaultOverview();
+    if (this.elements.overviewTitle) this.elements.overviewTitle.value = ov.title;
+    if (this.elements.overviewLead) this.elements.overviewLead.value = ov.leadText;
+    if (this.elements.solutionTitle) this.elements.solutionTitle.value = ov.solutionTitle;
+    if (this.elements.solutionContent) this.elements.solutionContent.value = ov.solutionContent;
+    this.showModuleImagePreview('overview', ov.image || '');
+
+    // 渲染痛点列表
+    if (this.elements.painPointsList) {
+      this.elements.painPointsList.innerHTML = '';
+      ov.painPoints.forEach((pp, index) => {
+        const div = document.createElement('div');
+        div.className = 'advantage-edit';
+        div.innerHTML = `
+          <div class="advantage-edit-header">痛点 ${index + 1}</div>
+          <div class="form-group">
+            <label class="form-label">图标</label>
+            <input type="text" class="glass-input pp-icon" data-index="${index}" value="${pp.icon}" placeholder="📚">
+          </div>
+          <div class="form-group">
+            <label class="form-label">标题</label>
+            <input type="text" class="glass-input pp-title" data-index="${index}" value="${pp.title}" placeholder="标题">
+          </div>
+          <div class="form-group">
+            <label class="form-label">描述</label>
+            <textarea class="glass-input pp-desc" data-index="${index}" rows="2" placeholder="描述">${pp.desc}</textarea>
+          </div>
+        `;
+        this.elements.painPointsList.appendChild(div);
+      });
+    }
+  },
+  
+  // 渲染技术架构编辑器
+  renderTechEditor() {
+    const tech = this.data.tech || this.getDefaultTech();
+    if (this.elements.techTitle) this.elements.techTitle.value = tech.title;
+    this.showModuleImagePreview('tech', tech.image || '');
+
+    if (this.elements.techCardsList) {
+      this.elements.techCardsList.innerHTML = '';
+      tech.cards.forEach((card, index) => {
+        const div = document.createElement('div');
+        div.className = 'advantage-edit';
+        div.innerHTML = `
+          <div class="advantage-edit-header">技术卡片 ${index + 1}</div>
+          <div class="form-group">
+            <label class="form-label">卡片标题</label>
+            <input type="text" class="glass-input tech-card-title" data-index="${index}" value="${card.title}" placeholder="标题">
+          </div>
+          <div class="form-group">
+            <label class="form-label">列表项（每行一个，用 - 分隔标题和描述）</label>
+            <textarea class="glass-input tech-card-items" data-index="${index}" rows="4" placeholder="标题 - 描述">${card.items.join('\n')}</textarea>
+          </div>
+        `;
+        this.elements.techCardsList.appendChild(div);
+      });
+    }
+  },
+  
+  // 渲染应用场景编辑器
+  renderScenariosEditor() {
+    const sc = this.data.scenarios || this.getDefaultScenarios();
+    if (this.elements.scenariosTitle) this.elements.scenariosTitle.value = sc.title;
+    
+    if (this.elements.scenariosList) {
+      this.elements.scenariosList.innerHTML = '';
+      sc.cards.forEach((card, index) => {
+        const div = document.createElement('div');
+        div.className = 'advantage-edit';
+        div.innerHTML = `
+          <div class="advantage-edit-header">场景卡片 ${index + 1}</div>
+          <div class="form-group">
+            <label class="form-label">图标</label>
+            <input type="text" class="glass-input sc-icon" data-index="${index}" value="${card.icon}" placeholder="📖">
+          </div>
+          <div class="form-group">
+            <label class="form-label">标题</label>
+            <input type="text" class="glass-input sc-title" data-index="${index}" value="${card.title}" placeholder="标题">
+          </div>
+          <div class="form-group">
+            <label class="form-label">描述</label>
+            <textarea class="glass-input sc-desc" data-index="${index}" rows="2" placeholder="描述">${card.desc}</textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">标签（用逗号分隔）</label>
+            <input type="text" class="glass-input sc-tags" data-index="${index}" value="${card.tags.join(', ')}" placeholder="标签1, 标签2">
+          </div>
+        `;
+        this.elements.scenariosList.appendChild(div);
+      });
+    }
+  },
+  
+  // 渲染团队介绍编辑器
+  renderTeamEditor() {
+    const team = this.data.team || this.getDefaultTeam();
+    if (this.elements.teamTitle) this.elements.teamTitle.value = team.title;
+    if (this.elements.teamName) this.elements.teamName.value = team.name;
+    if (this.elements.teamDesc) this.elements.teamDesc.value = team.desc;
+    this.showModuleImagePreview('team', team.image || '');
+
+    if (this.elements.teamStatsList) {
+      this.elements.teamStatsList.innerHTML = '';
+      team.stats.forEach((stat, index) => {
+        const div = document.createElement('div');
+        div.className = 'advantage-edit';
+        div.innerHTML = `
+          <div class="advantage-edit-header">统计数据 ${index + 1}</div>
+          <div class="form-group" style="display:flex;gap:12px;">
+            <div style="flex:1">
+              <label class="form-label">数字</label>
+              <input type="text" class="glass-input stat-number" data-index="${index}" value="${stat.number}" placeholder="25年">
+            </div>
+            <div style="flex:1">
+              <label class="form-label">标签</label>
+              <input type="text" class="glass-input stat-label" data-index="${index}" value="${stat.label}" placeholder="虚拟经验">
+            </div>
+          </div>
+        `;
+        this.elements.teamStatsList.appendChild(div);
+      });
+    }
+  },
+
+  // 渲染CTA编辑器
+  renderCTAEditor() {
+    const cta = this.data.cta || this.getDefaultCTA();
+    if (this.elements.ctaTitle) this.elements.ctaTitle.value = cta.title;
+    if (this.elements.ctaDesc) this.elements.ctaDesc.value = cta.desc;
+    if (this.elements.ctaButton) this.elements.ctaButton.value = cta.buttonText;
+    this.showModuleImagePreview('cta', cta.backgroundImage || '');
+  },
+  
+  // 更新产品概述数据
+  updateOverview() {
+    const icons = this.elements.painPointsList.querySelectorAll('.pp-icon');
+    const titles = this.elements.painPointsList.querySelectorAll('.pp-title');
+    const descs = this.elements.painPointsList.querySelectorAll('.pp-desc');
+    const prevImage = this.data.overview ? (this.data.overview.image || '') : '';
+
+    this.data.overview = {
+      title: this.elements.overviewTitle.value,
+      leadText: this.elements.overviewLead.value,
+      painPoints: Array.from(titles).map((_, index) => ({
+        icon: icons[index]?.value || '📚',
+        title: titles[index]?.value || '',
+        desc: descs[index]?.value || ''
+      })),
+      solutionTitle: this.elements.solutionTitle.value,
+      solutionContent: this.elements.solutionContent.value,
+      image: prevImage
+    };
+  },
+
+  // 更新技术架构数据
+  updateTech() {
+    const titles = this.elements.techCardsList.querySelectorAll('.tech-card-title');
+    const items = this.elements.techCardsList.querySelectorAll('.tech-card-items');
+    const prevImage = this.data.tech ? (this.data.tech.image || '') : '';
+
+    this.data.tech = {
+      title: this.elements.techTitle.value,
+      cards: Array.from(titles).map((title, index) => ({
+        title: title.value,
+        items: (items[index]?.value || '').split('\n').filter(l => l.trim())
+      })),
+      image: prevImage
+    };
+  },
+
+  // 更新应用场景数据
+  updateScenarios() {
+    const icons = this.elements.scenariosList.querySelectorAll('.sc-icon');
+    const titles = this.elements.scenariosList.querySelectorAll('.sc-title');
+    const descs = this.elements.scenariosList.querySelectorAll('.sc-desc');
+    const tags = this.elements.scenariosList.querySelectorAll('.sc-tags');
+
+    this.data.scenarios = {
+      title: this.elements.scenariosTitle.value,
+      cards: Array.from(titles).map((_, index) => ({
+        icon: icons[index]?.value || '📖',
+        title: titles[index]?.value || '',
+        desc: descs[index]?.value || '',
+        tags: (tags[index]?.value || '').split(',').map(t => t.trim()).filter(t => t)
+      }))
+    };
+  },
+
+  // 更新团队介绍数据
+  updateTeam() {
+    const numbers = this.elements.teamStatsList.querySelectorAll('.stat-number');
+    const labels = this.elements.teamStatsList.querySelectorAll('.stat-label');
+    const prevImage = this.data.team ? (this.data.team.image || '') : '';
+
+    this.data.team = {
+      title: this.elements.teamTitle.value,
+      name: this.elements.teamName.value,
+      desc: this.elements.teamDesc.value,
+      stats: Array.from(numbers).map((num, index) => ({
+        number: num.value,
+        label: labels[index]?.value || ''
+      })),
+      image: prevImage
+    };
+  },
+
+  // 更新CTA数据
+  updateCTA() {
+    const prevBg = this.data.cta ? (this.data.cta.backgroundImage || '') : '';
+    this.data.cta = {
+      title: this.elements.ctaTitle.value,
+      desc: this.elements.ctaDesc.value,
+      buttonText: this.elements.ctaButton.value,
+      backgroundImage: prevBg
+    };
+  },
+
   // 保存所有设置到服务器
   async saveSettings() {
     try {
       this.showNotification('正在保存到服务器...', 'info');
-      
-      // 更新优势卡片数据
+
+      // 更新各模块数据
       this.updateAdvantages();
-      
+      this.updateOverview();
+      this.updateTech();
+      this.updateScenarios();
+      this.updateTeam();
+      this.updateCTA();
+
       // 构建配置对象
       const config = {
         theme: this.data.theme,
         backgroundImage: this.data.bgImage || '',
         backgroundAudio: this.data.bgAudio?.url || '',
-        aboutTitle: this.elements.aboutTitle.value,
-        aboutContent: this.elements.aboutContent.value,
-        aboutImages: this.data.aboutImages,
+        aboutTitle: this.elements.aboutTitle ? this.elements.aboutTitle.value : '老张工艺助手',
         advantages: this.data.advantages,
+        overview: this.data.overview,
+        tech: this.data.tech,
+        scenarios: this.data.scenarios,
+        team: this.data.team,
+        cta: this.data.cta,
         chatMode: this.data.chatMode,
-        iframeUrl: this.elements.iframeUrlInput.value
+        iframeUrl: this.elements.iframeUrlInput ? this.elements.iframeUrlInput.value : ''
       };
-      
+
       // 保存到服务器
       const result = await ServerStorage.saveConfig(config);
-      
+
       if (result.success) {
         this.showNotification('设置已保存到服务器！所有用户将看到更新', 'success');
       } else {
@@ -704,18 +1086,7 @@ const AdminManager = {
     StorageManager.resetAll();
     
     // 重置本地数据
-    this.data = {
-      theme: 'orange',
-      bgImage: null,
-      bgAudio: null,
-      aboutTitle: '老张工艺助手',
-      aboutContent: '',
-      aboutImages: [],
-      advantages: StorageManager.getAdvantages()
-    };
-    
-    // 重新加载数据
-    this.loadData();
+    this.setDefaultData();
     
     // 重新初始化UI
     this.initUI();
