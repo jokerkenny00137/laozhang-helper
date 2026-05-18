@@ -45,13 +45,33 @@ function getAuthHeader() {
     return '';
 }
 
+// 加载本地配置文件（安全存储敏感信息）
+function loadLocalConfig() {
+    $localConfigFile = __DIR__ . '/config.local.php';
+    if (file_exists($localConfigFile)) {
+        return require $localConfigFile;
+    }
+    // 如果本地配置不存在，返回空数组
+    return [];
+}
+
 // 保存配置（需要简单鉴权）
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 简单鉴权：检查管理员token
     $authHeader = getAuthHeader();
     
-    // 默认token：laozhang2024（可在后台修改）
-    if ($authHeader !== 'Bearer laozhang2024') {
+    // 从本地配置文件加载鉴权 Token
+    $localConfig = loadLocalConfig();
+    $validToken = isset($localConfig['auth_token']) ? 'Bearer ' . $localConfig['auth_token'] : '';
+    
+    // 如果未配置本地 Token，则拒绝请求（为了安全，不再使用硬编码默认值）
+    if (empty($validToken)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Server configuration error: auth token not configured']);
+        exit;
+    }
+    
+    if ($authHeader !== $validToken) {
         http_response_code(401);
         echo json_encode(['error' => 'Unauthorized']);
         exit;

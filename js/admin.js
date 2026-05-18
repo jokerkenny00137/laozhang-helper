@@ -707,10 +707,20 @@ const AdminManager = {
       const formData = new FormData();
       formData.append('file', file);
       
+      // 从全局配置或 localStorage 获取鉴权 Token
+      // 优先级：window.appConfig > localStorage > 空字符串
+      const authToken = (typeof window !== 'undefined' && window.appConfig?.AUTH_TOKEN) 
+        || localStorage.getItem('lz_admin_token') 
+        || '';
+      
+      if (!authToken) {
+        throw new Error('未配置鉴权 Token，请联系管理员');
+      }
+      
       const response = await fetch('./api/upload.php', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer laozhang2024'
+          'Authorization': 'Bearer ' + authToken
         },
         body: formData
       });

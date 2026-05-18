@@ -1,21 +1,47 @@
-# 敏感配置文件
-.env
-.env.local
-.env.production
-
-# API 密钥配置文件
+# ==================== 敏感配置文件 ====================
+# 包含 API 密钥、Token 等敏感信息的配置文件
 config.js
+api/config.local.php
 
-# 上传的文件
+# ==================== 上传文件 ====================
 api/uploads/
+api/images/
+*.mp3
+*.wav
+*.ogg
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
 
-# 依赖目录
-node_modules/
-
-# IDE
-.vscode/
-.idea/
-
-# 系统文件
+# ==================== 系统文件 ====================
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# ==================== 编辑器文件 ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ==================== 日志文件 ====================
+*.log
+error_log
+access_log
+
+# ==================== 依赖目录 ====================
+node_modules/
+vendor/
+
+# ==================== 环境文件 ====================
+.env
+.env.local
+.env.*.local
+
+# ==================== 构建输出 ====================
+dist/
+build/
+*.min.js.map

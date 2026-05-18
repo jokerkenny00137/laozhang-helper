@@ -21,18 +21,43 @@ const ChatManager = {
   typingInterval: null,
   
   // API配置（腾讯元器）
+  // ⚠️ 安全提示：不要在代码中硬编码敏感信息！
+  // 这些配置将从 window.appConfig（config.js）动态加载
   apiConfig: {
     url: 'https://open.hunyuan.tencent.com/openapi/v1/agent/chat/completions',
-    appKey: 'oKmFAEybU7IkzqWmNbdTdyv4KMLifhYf',
-    assistantId: '2055110454115566656',
-    userId: '70831129c3034bc79c80c420d1e61345'
+    appKey: '',
+    assistantId: '',
+    userId: ''
+  },
+  
+  // 初始化 API 配置（从全局配置加载）
+  initApiConfig() {
+    // 优先从 window.appConfig 加载
+    if (typeof window !== 'undefined' && window.appConfig?.YUANQI) {
+      this.apiConfig = {
+        url: window.appConfig.YUANQI.API_URL || this.apiConfig.url,
+        appKey: window.appConfig.YUANQI.APP_KEY || '',
+        assistantId: window.appConfig.YUANQI.ASSISTANT_ID || '',
+        userId: window.appConfig.YUANQI.USER_ID || ''
+      };
+    }
+    
+    // 如果没有配置，使用默认值（iframe 模式不需要这些）
+    if (!this.apiConfig.appKey) {
+      console.warn('API 密钥未配置，API 模式将不可用。请使用 iframe 嵌入模式。');
+    }
   },
   
   // 获取配置（优先从服务器配置读取，其次 localStorage，最后默认值）
   getConfig() {
     const serverConfig = window.serverConfig || {};
     const chatMode = serverConfig.chatMode || localStorage.getItem('lz_chat_mode') || 'iframe';
-    const iframeUrl = serverConfig.iframeUrl || localStorage.getItem('lz_iframe_url') || 'https://yuanqi.tencent.com/webim/#/chat/edOjNA?appid=2055110454115566656&experience=true';
+    
+    // 获取 iframe URL：服务器配置 > localStorage > 全局配置 > 空字符串
+    const defaultIframeUrl = (typeof window !== 'undefined' && window.appConfig?.DEFAULT_IFRAME_URL) || '';
+    const iframeUrl = serverConfig.iframeUrl 
+      || localStorage.getItem('lz_iframe_url') 
+      || defaultIframeUrl;
 
     return {
       mode: chatMode,
@@ -51,6 +76,9 @@ const ChatManager = {
     this.clearButton = document.getElementById('clearChatBtn');
     
     if (!this.messagesContainer) return;
+    
+    // 初始化 API 配置（从全局配置加载）
+    this.initApiConfig();
     
     // 获取配置
     const config = this.getConfig();
