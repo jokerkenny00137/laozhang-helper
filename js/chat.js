@@ -35,23 +35,23 @@ const ChatManager = {
     // 优先从 window.appConfig 加载
     if (typeof window !== 'undefined' && window.appConfig?.YUANQI) {
       this.apiConfig = {
-        url: window.appConfig.YUANQI.API_URL || this.apiConfig.url,
-        appKey: window.appConfig.YUANQI.APP_KEY || '',
+        url: 'api/chat-proxy.php', // 使用后端代理解决跨域
+        appKey: '', // 代理模式下不需要前端配置 key
         assistantId: window.appConfig.YUANQI.ASSISTANT_ID || '',
         userId: window.appConfig.YUANQI.USER_ID || ''
       };
     }
     
-    // 如果没有配置，使用默认值（iframe 模式不需要这些）
-    if (!this.apiConfig.appKey) {
-      console.warn('API 密钥未配置，API 模式将不可用。请使用 iframe 嵌入模式。');
+    // 检查是否配置了 Assistant ID
+    if (!this.apiConfig.assistantId) {
+      console.warn('Assistant ID 未配置，API 模式将不可用。请在 config.js 中配置 YUANQI.ASSISTANT_ID');
     }
   },
   
-  // 获取配置（优先从服务器配置读取，其次 localStorage，最后默认值）
+    // 获取配置（优先从服务器配置读取，其次 localStorage，最后默认值）
   getConfig() {
     const serverConfig = window.serverConfig || {};
-    const chatMode = serverConfig.chatMode || localStorage.getItem('lz_chat_mode') || 'iframe';
+    const chatMode = serverConfig.chatMode || localStorage.getItem('lz_chat_mode') || 'api';
     
     // 获取 iframe URL：服务器配置 > localStorage > 全局配置 > 空字符串
     const defaultIframeUrl = (typeof window !== 'undefined' && window.appConfig?.DEFAULT_IFRAME_URL) || '';

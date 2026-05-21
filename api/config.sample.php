@@ -12,6 +12,10 @@ return [
     // 生成方法：openssl rand -base64 32
     'auth_token' => 'your-random-token-here',
     
+    // 腾讯元器配置（API 调用模式使用）
+    // 从腾讯元器控制台获取：https://yuanqi.tencent.com/
+    'yuanqi_app_key' => '', // 腾讯元器 AppKey
+    
     // 其他配置项...
     'upload_max_size' => 10 * 1024 * 1024, // 10MB
     'allowed_image_types' => ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],

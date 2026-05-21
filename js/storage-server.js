@@ -7,8 +7,8 @@ const ServerStorage = {
   // API基础URL
   apiBase: './api',
   
-  // 管理员Token
-  token: 'laozhang2024',
+  // 管理员Token（部署前必须修改）
+  token: localStorage.getItem('lz_admin_token') || '',
   
   // 缓存的配置
   cachedConfig: null,
